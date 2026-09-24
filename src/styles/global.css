@@ -47,3 +47,67 @@
 .property-checklist li::before{content:counter(approval,decimal-leading-zero);color:var(--gold);font-size:.75rem;margin-top:3px}
 @media(max-width:800px){.information-band,.readiness-table,.property-checklist{grid-template-columns:1fr;gap:30px}.planning-grid{grid-template-columns:1fr 1fr}.planning-grid article:nth-child(2){border-right:0}.role-map{grid-template-columns:1fr 1fr}.community-grid{grid-template-columns:1fr 1fr}.information-intro h2{max-width:600px}.information-intro p:last-child{max-width:560px}}
 @media(max-width:560px){.information-grid,.planning-grid,.role-map,.community-grid{grid-template-columns:1fr}.planning-grid article{border-right:0;margin-right:0;padding-right:0}.role-map,.community-grid{gap:12px}.readiness-rows article{grid-template-columns:1fr;gap:7px}.information-band{padding-block:45px}.information-grid article{padding:21px}.information-intro h2{font-size:2rem}}
+
+/* Refined screen rhythm: denser, clearer, and easier to scan. */
+:root{--page:1180px;--soft-blue:#eef4f7;--shadow:0 12px 36px rgba(18,44,62,.07)}
+body{font-size:15px}
+p{line-height:1.58;margin-bottom:1rem}
+.container{width:min(var(--page),calc(100% - 64px))}
+.section{padding-block:64px}
+.site-header{position:sticky;top:0;z-index:20;box-shadow:0 1px 0 rgba(18,44,62,.04)}
+.header-inner{min-height:84px}
+.brand,.brand-art{width:188px}
+.brand-art{height:58px}
+.brand-art img{width:273px;left:-43px;top:-13px}
+.site-header nav{gap:24px}
+.home-hero{padding-block:46px 42px;gap:44px}
+.home-hero .image-frame{box-shadow:var(--shadow)}
+.image-frame>img{height:455px}
+.hero-description{margin:20px 0 23px;line-height:1.58}
+.audience-links{margin-top:23px;gap:10px}
+.promise-bar>.container{padding-block:17px}
+.information-band{padding-block:48px 58px;gap:56px}
+.information-grid article{padding:20px 22px 23px}
+.section-heading{margin-bottom:30px;gap:44px}
+.audience-grid{gap:24px}
+.card-image{box-shadow:var(--shadow)}
+.card-image img{height:270px}
+.audience-card-copy{padding-top:20px}
+.workflow{margin:30px 0 22px;gap:28px}
+.workflow li{padding-top:20px}
+.step-number{margin-bottom:24px}
+.workflow-section,.community-model,.operator-map{padding-block:62px}
+.fit-section{gap:72px}
+.numbered-features article{padding-block:21px}
+.planning-grid{margin-top:26px}
+.planning-grid article{padding-top:20px}
+.planning-grid span{margin-bottom:17px}
+.faq-list summary{padding:19px 0}
+.faq-list details p{margin-bottom:20px}
+.cta-section{margin-top:0}
+.cta-inner{padding-block:46px}
+.site-footer{padding-top:44px}
+.footer-main{padding-bottom:38px}
+.footer-bottom{padding-block:18px}
+.page-intro{padding-block:48px 38px}
+.housing-hero{padding-block:48px;gap:52px}
+.housing-hero figure>img{height:390px;box-shadow:var(--shadow)}
+.three-columns{gap:30px}
+.three-columns article{padding-top:20px}
+.role-map,.community-grid{margin-top:25px;gap:14px}
+.role-map article,.community-grid article{padding:22px 21px;box-shadow:0 6px 18px rgba(18,44,62,.04)}
+.split-section{gap:72px}
+.review-list{padding:30px 34px}
+.review-list li{padding:13px 0}
+.property-checklist{padding-block:54px;gap:56px}
+.property-checklist ol{display:grid;grid-template-columns:1fr 1fr}
+.property-checklist li{padding:15px 18px 15px 0;margin-right:18px}
+.property-checklist li::before{font-size:.72rem}
+.property-checklist li>span{display:none}
+.quiet-note{padding-block:22px;margin-bottom:0}
+.inquiry-layout{padding-block:48px 64px;gap:64px}
+.inquiry-form fieldset{margin-bottom:22px}
+.role-options{margin-bottom:24px}
+.form-details{margin:22px 0}
+@media(max-width:800px){.container{width:calc(100% - 40px)}.section{padding-block:50px}.header-inner{min-height:78px}.site-header nav{top:77px}.home-hero{padding-block:34px}.workflow-section,.community-model,.operator-map{padding-block:50px}.housing-hero{padding-block:36px}.property-checklist{padding-block:46px}.property-checklist ol{grid-template-columns:1fr}.property-checklist li{margin-right:0}.cta-inner{padding-block:38px}.site-footer{padding-top:36px}}
+@media(max-width:560px){body{font-size:15px}.container{width:calc(100% - 32px)}.section{padding-block:42px}.home-hero{gap:26px}.hero-figure .image-frame>img{aspect-ratio:1.32}.information-band{padding-block:38px}.workflow-section,.community-model,.operator-map{padding-block:42px}.section-heading{gap:14px;margin-bottom:24px}.housing-hero{padding-block:30px}.housing-hero figure>img{aspect-ratio:1.28}.review-list{padding:24px}.property-checklist{padding-block:40px}.cta-inner{padding-block:34px}.footer-main{padding-bottom:28px}}
