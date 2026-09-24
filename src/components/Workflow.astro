@@ -1,0 +1,6 @@
+---
+import { workflow } from '../content/site';
+interface Props { housing?: boolean; }
+const { housing = false } = Astro.props;
+---
+<section class="section workflow-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">A simple service loop</p><h2>Drop off. Wash & fold. Pick up.</h2></div><p>{housing ? 'A familiar place for residents. A planned collection route for the laundry provider.' : 'Customers get a convenient handoff. Your team stays in charge of the laundry.'}</p></div><ol class="workflow">{workflow.map((step,i) => <li><span class="step-number">0{i+1}</span><h3>{step.title}</h3><p>{step.body}</p></li>)}</ol><p class="fineprint">Proposed workflow. Order acceptance, notifications and access are configured with the selected operator and system.</p></div></section>

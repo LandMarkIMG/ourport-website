@@ -1,0 +1,54 @@
+---
+import '../styles/global.css';
+import { brand, navigation } from '../content/site';
+interface Props { title: string; description: string; }
+const { title, description } = Astro.props;
+const path = Astro.url.pathname;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="/" aria-label="OurPort home">
+          <span class="brand-art"><img src="/images/ourport-logo.webp" width="2048" height="684" alt="OurPort. Your services arrive here. Powered by Monetize That." /></span>
+        </a>
+        <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation" type="button">Menu <span aria-hidden="true">＋</span></button>
+        <nav id="main-navigation" aria-label="Main navigation">
+          {navigation.map(item => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>)}
+          <a class="button button-small" href="/plan-a-site/" aria-current={path === '/plan-a-site/' ? 'page' : undefined}>Plan a site <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="container footer-main">
+        <div><a class="footer-wordmark" href="/">OUR<span>PORT</span></a><p>{brand.tagline}</p><small>Powered by Monetize That</small></div>
+        <div><p class="footer-label">Explore</p><a href="/laundromats/">For laundromats</a><a href="/housing/">For apartments & student housing</a><a href="/plan-a-site/?role=builder">For builders & developers</a></div>
+        <div><p class="footer-label">Let’s talk laundry.</p><a class="contact-link" href={`mailto:${brand.email}`}>{brand.email}</a><a href="/plan-a-site/">Discuss fit and pricing <span aria-hidden="true">↗</span></a></div>
+      </div>
+      <div class="container footer-bottom"><span>© {new Date().getFullYear()} OurPort</span><span>Concept imagery. Configuration and service availability vary by site.</span></div>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const nav = document.querySelector<HTMLElement>('#main-navigation');
+      const close = () => { toggle?.setAttribute('aria-expanded', 'false'); nav?.classList.remove('is-open'); };
+      toggle?.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); nav?.classList.toggle('is-open', open); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { close(); toggle.focus(); } });
+      nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', close));
+    </script>
+  </body>
+</html>

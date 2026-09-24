@@ -1,0 +1,5 @@
+import {readFile,readdir,access} from 'node:fs/promises';
+import {join,resolve} from 'node:path';
+const root=resolve('dist');let errors=[];let pages=0;let links=0;
+async function walk(dir){for(const item of await readdir(dir,{withFileTypes:true})){const p=join(dir,item.name);if(item.isDirectory())await walk(p);else if(item.name.endsWith('.html')){pages++;const html=await readFile(p,'utf8');if((html.match(/<h1[ >]/g)||[]).length!==1)errors.push(`${p}: expected one h1`);for(const m of html.matchAll(/(?:href|src)="(\/[^"#?]*)[^\"]*"/g)){links++;let target=join(root,decodeURI(m[1]));if(m[1].endsWith('/'))target=join(target,'index.html');try{await access(target);}catch{errors.push(`${p}: missing ${m[1]}`);}}for(const m of html.matchAll(/<img\b[^>]*>/g))if(!m[0].includes('alt='))errors.push(`${p}: image without alt`);if(/SUPABASE_SERVICE_ROLE_KEY|test-only-key/.test(html))errors.push(`${p}: server-only material leaked`);}}}
+await walk(root);if(errors.length){console.error(errors.join('\n'));process.exit(1);}console.log(`${pages} pages checked; ${links} local references valid; one h1 per page; image alt text present.`);

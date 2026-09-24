@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {validateInquiry} from '../src/lib/inquiry.mjs';
+import {makeHandler} from '../netlify/functions/site-inquiry.mjs';
+const valid={requestId:'c8f592e1-c6b8-4cbb-9e5d-519b2690ebc2',role:'housing',contactName:'Preview Test',email:'preview@example.com',location:'Phoenix, AZ',locationCount:'2'};
+const env={SUPABASE_URL:'https://example.supabase.co',SUPABASE_SERVICE_ROLE_KEY:'test-only-key',ALLOWED_ORIGIN:'https://ourport.example'};
+const request=(body=valid,options={})=>new Request('https://ourport.example/api/site-inquiry',{method:'POST',headers:{origin:env.ALLOWED_ORIGIN,'content-type':'application/json',...options.headers},body:JSON.stringify(body)});
+test('whitelists branch data and excludes internal status and resident identifiers',()=>{const r=validateInquiry({...valid,dashboard:'wrong branch',status:'qualified',residentId:'discard'});assert.equal(r.value.location_count,2);assert.equal(r.value.details.dashboard,undefined);assert.equal(r.value.status,undefined);assert.equal(r.value.details.residentId,undefined);});
+test('rejects missing required data, malformed email, bad role and oversized values',()=>{for(const patch of [{contactName:' '},{email:'invalid'},{role:'__proto__'},{note:'a'.repeat(2001)},{requestId:'invalid'},{locationCount:-1},{homesOrBeds:'1.5'}])assert.ok(validateInquiry({...valid,...patch}).error);});
+test('rejects honeypot payload',()=>assert.ok(validateInquiry({...valid,website:'bot'}).error));
+test('fails closed when storage is unconfigured',async()=>assert.equal((await makeHandler({env:{}})(request())).status,503));
+test('rejects cross-origin and invalid requests without contacting storage',async()=>{let calls=0;const handler=makeHandler({env,fetcher:async()=>{calls++;}});assert.equal((await handler(request(valid,{headers:{origin:'https://other.example'}}))).status,403);assert.equal((await handler(request({}))).status,400);assert.equal((await handler(request(valid,{headers:{'content-type':'text/plain'}}))).status,415);assert.equal(calls,0);});
+test('saves validated payload with an idempotency key without exposing credentials',async()=>{let sent;const handler=makeHandler({env,fetcher:async(url,options)=>{sent={url,options};return new Response(null,{status:201});}});const response=await handler(request());assert.equal(response.status,201);assert.match(sent.url,/on_conflict=request_id/);assert.equal(JSON.parse(sent.options.body).request_id,valid.requestId);assert.deepEqual(await response.json(),{ok:true});});
+test('does not report success after storage failure or timeout',async()=>{for(const fetcher of [async()=>new Response('private db detail',{status:500}),async()=>{throw new Error('private timeout')}]){const response=await makeHandler({env,fetcher})(request());assert.equal(response.status,502);assert.doesNotMatch(await response.text(),/private|test-only-key/);}});

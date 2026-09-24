@@ -1,0 +1,5 @@
+---
+interface Props { title?: string; body?: string; role?: string; }
+const { title = 'A good fit starts with your site.', body = 'A laundromat wall, an apartment lobby, or a student residence. Tell us what you have in mind.', role = '' } = Astro.props;
+---
+<section class="cta-section"><div class="container cta-inner"><div><p class="eyebrow">Let’s plan it together</p><h2>{title}</h2><p>{body}</p></div><a class="button" href={`/plan-a-site/${role ? '?role='+role : ''}`}>Discuss fit and pricing <span aria-hidden="true">↗</span></a></div></section>
