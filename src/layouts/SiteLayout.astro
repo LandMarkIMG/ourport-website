@@ -11,7 +11,7 @@ const path = Astro.url.pathname;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" content="#122c3e" />
     <meta name="robots" content="noindex, nofollow" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -24,7 +24,7 @@ const path = Astro.url.pathname;
     <header class="site-header">
       <div class="container header-inner">
         <a class="brand" href="/" aria-label="OurPort home">
-          <span class="brand-art"><img src="/images/ourport-logo.webp" width="2048" height="684" alt="OurPort. Your services arrive here. Powered by Monetize That." /></span>
+          <span class="brand-art brand-inverse" aria-hidden="true"><span class="brand-wordmark">OUR<span class="brand-p">P</span><span class="brand-o">O<i></i></span>RT</span><span class="brand-tagline">Your services arrive here.</span><span class="brand-powered">Powered by Monetize That</span></span>
         </a>
         <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation" type="button">Menu <span aria-hidden="true">＋</span></button>
         <nav id="main-navigation" aria-label="Main navigation">
