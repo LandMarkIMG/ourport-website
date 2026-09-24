@@ -145,3 +145,12 @@ p{line-height:1.58;margin-bottom:1rem}
 .readiness-grid p{font-size:.875rem;margin:0}
 @media(max-width:800px){.planning-steps{grid-template-columns:1fr 1fr}.planning-steps li:nth-child(2){border-right:0}.operator-map-grid{grid-template-columns:120px 1fr}.readiness-grid>div{grid-template-columns:80px 150px 1fr}.readiness-table{box-shadow:0 0 0 20px var(--soft-blue);margin-inline:20px}}
 @media(max-width:560px){.workflow li{padding:18px}.workflow li+li::before{content:'↓';left:24px;top:-25px}.step-mark{grid-column:1/-1;margin-bottom:8px}.workflow li{display:block}.planning-steps{grid-template-columns:1fr}.planning-steps li,.planning-steps li:nth-child(2){border-right:0;margin-right:0;padding-right:0;border-bottom:1px solid #d9cdb9}.operator-map-grid{grid-template-columns:1fr}.operator-map-grid .map-label{padding:16px 0 4px;border-bottom:0}.operator-map-grid .map-label+div{padding:4px 0 16px}.readiness-table{box-shadow:0 0 0 16px var(--soft-blue);margin-inline:16px}.readiness-grid>div{grid-template-columns:1fr;gap:5px}.three-columns article{padding:18px}}
+
+/* Light carton-tan masthead separates navigation from the white hero. */
+.site-header{background:#eee4d2;border-bottom:1px solid #d8c9ae;box-shadow:0 5px 18px rgba(55,43,25,.06)}
+.header-inner{position:relative}
+.site-header nav>a:not(.button){color:#263b49}
+.site-header nav>a[aria-current=page]:not(.button){color:var(--blue);box-shadow:inset 0 -2px var(--gold)}
+.site-header .button{box-shadow:0 3px 10px rgba(18,44,62,.12)}
+.brand-art{background:rgba(255,255,255,.34);border-radius:3px}
+@media(max-width:800px){.site-header nav{background:#f5ede0;border-bottom-color:#d8c9ae}.menu-toggle{background:#fffaf3;border-color:#cdbc9e}}
