@@ -29,6 +29,7 @@ const path = Astro.url.pathname;
         <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation" type="button">Menu <span aria-hidden="true">＋</span></button>
         <nav id="main-navigation" aria-label="Main navigation">
           {navigation.map(item => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>)}
+          <details class="nav-options"><summary>Site options <span aria-hidden="true">＋</span></summary><div><a href="/cctv/" aria-current={path === '/cctv/' ? 'page' : undefined}>CCTV monitoring</a><a href="/wifi-wap/" aria-current={path === '/wifi-wap/' ? 'page' : undefined}>WiFi & WAP</a></div></details>
           <a class="button button-small" href="/plan-a-site/" aria-current={path === '/plan-a-site/' ? 'page' : undefined}>Plan a site <span aria-hidden="true">↗</span></a>
         </nav>
       </div>
@@ -37,7 +38,7 @@ const path = Astro.url.pathname;
     <footer class="site-footer">
       <div class="container footer-main">
         <div><a class="footer-wordmark" href="/">OUR<span>PORT</span></a><p>{brand.tagline}</p><small>Powered by Monetize That</small></div>
-        <div><p class="footer-label">Explore</p><a href="/laundromats/">For laundromats</a><a href="/housing/">For apartments & student housing</a><a href="/plan-a-site/?role=builder">For builders & developers</a></div>
+        <div><p class="footer-label">Explore</p><a href="/laundromats/">For laundromats</a><a href="/housing/">For apartments & student housing</a><a href="/cctv/">CCTV monitoring options</a><a href="/wifi-wap/">WiFi & WAP options</a><a href="/plan-a-site/?role=builder">For builders & developers</a></div>
         <div><p class="footer-label">Let’s talk laundry.</p><a class="contact-link" href={`mailto:${brand.email}`}>{brand.email}</a><a href="/plan-a-site/">Discuss fit and pricing <span aria-hidden="true">↗</span></a></div>
       </div>
       <div class="container footer-bottom"><span>© {new Date().getFullYear()} OurPort</span><span>Concept imagery. Configuration and service availability vary by site.</span></div>
