@@ -249,3 +249,39 @@ body,main{background:var(--powder)}
 .transformation-bar{width:min(900px,100%);margin-inline:auto}
 @media(max-width:800px){.fit-section,.split-section,.option-decisions{padding-inline:24px}.option-decisions{margin-block:22px}.transformation figure{padding:9px}.transformation figure>img{max-height:440px}}
 @media(max-width:560px){.fit-section,.split-section,.option-decisions{padding-inline:18px}.faq-list{padding-inline:17px}.transformation figure>img{max-height:340px}}
+
+/* Denser powder-blue presentation and aligned laundromat hero. */
+:root{--powder:#e7f0f5;--powder-deep:#dce9f0}
+.section{padding-block:51px}
+.header-inner{min-height:74px}
+.site-header nav{gap:21px}
+.home-hero{padding-block:37px 34px;gap:36px}
+.housing-hero{padding-block:38px;gap:42px}
+.option-hero{padding-block:38px;gap:45px}
+.information-band{padding-block:39px 46px;gap:45px}
+.workflow-section,.community-model,.operator-map{padding-block:50px}
+.section-heading{margin-bottom:24px;gap:36px}
+.planning-grid,.planning-steps{margin-top:21px}
+.fit-section,.split-section{gap:58px}
+.property-checklist{padding-block:43px;gap:45px}
+.cta-inner{padding-block:37px}
+.site-footer{padding-top:35px}
+.footer-main{padding-bottom:30px}
+.option-decisions{margin-block:27px}
+.sibling-option{padding-block:38px}
+.download-strip{margin-bottom:52px}
+.laundry-hero{display:grid;grid-template-columns:.76fr 1.24fr;gap:46px;align-items:center;padding-block:38px 46px}
+.laundry-hero-copy .lead{font-size:1.08rem;max-width:430px;margin:21px 0 24px}
+.laundry-hero-copy h1{font-size:clamp(2.8rem,4.2vw,4rem)}
+.laundry-hero .transformation{min-width:0}
+.laundry-hero .transformation-bar{width:100%;margin:0 0 16px;align-items:flex-end}
+.laundry-hero .transformation-bar .eyebrow{margin-bottom:7px}
+.laundry-hero .transformation-bar h2{font-size:1.55rem}
+.laundry-hero .transformation figure{width:100%;margin:0;padding:10px}
+.laundry-hero .transformation figure>img{width:100%;height:auto;max-height:420px;object-fit:contain}
+.laundry-hero .transformation figcaption{padding-top:10px;font-size:.72rem}
+.laundry-hero .segmented button{padding:9px 11px;font-size:.78rem}
+@media(max-width:1080px){.laundry-hero{gap:34px;grid-template-columns:.8fr 1.2fr}.laundry-hero .transformation-bar{align-items:flex-start;flex-direction:column;gap:12px}.laundry-hero .segmented{width:auto}}
+@media(max-width:900px){.laundry-hero{grid-template-columns:1fr;gap:28px}.laundry-hero-copy .lead{max-width:620px}.laundry-hero .transformation{width:min(760px,100%)}.laundry-hero .transformation-bar{flex-direction:row;align-items:flex-end}.laundry-hero .segmented{width:auto}}
+@media(max-width:800px){.section{padding-block:40px}.header-inner{min-height:70px}.site-header nav{top:69px}.home-hero,.housing-hero,.option-hero,.laundry-hero{padding-block:30px}.information-band{padding-block:34px}.workflow-section,.community-model,.operator-map{padding-block:40px}.property-checklist{padding-block:37px}.cta-inner{padding-block:30px}.site-footer{padding-top:29px}}
+@media(max-width:560px){.section{padding-block:34px}.home-hero,.housing-hero,.option-hero,.laundry-hero{padding-block:26px}.laundry-hero-copy h1{font-size:2.7rem}.laundry-hero .transformation-bar{flex-direction:column;align-items:flex-start;gap:11px}.laundry-hero .segmented{width:100%}.information-band{padding-block:30px}.workflow-section,.community-model,.operator-map{padding-block:34px}.property-checklist{padding-block:32px}.cta-inner{padding-block:27px}}
