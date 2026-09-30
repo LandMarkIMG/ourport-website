@@ -1,0 +1,41 @@
+---
+const slides = [
+  {label:'The wall',title:'See what a wall can become.',copy:'Compare the room today with a proposed laundry drop-off and pickup point.',image:'/images/laundromat-wall.webp',alt:'Illustrative OurPort locker wall inside a laundromat.'},
+  {label:'Your fit',title:'A fitted wall. Or repeatable bays.',copy:'Choose a configuration around bag size, available space and the way your team works.',image:'/images/laundry-fit.webp',alt:'Concept drawings of a fitted locker wall and separate modular locker bays.'},
+  {label:'Getting started',title:'Start with the service you need.',copy:'Agree the handoff first. Add connected features when the operation calls for them.'},
+  {label:'Future options',title:'Plan for more possibilities.',copy:'Additional services are proposed options, subject to site, operator and integration review.',image:'/images/laundry-future.webp',alt:'Concept drawing of an expanded locker service wall.'}
+];
+---
+<section class="hero-story" aria-label="Explore your laundry wall" aria-roledescription="carousel">
+  <div class="story-tabs" role="group" aria-label="Choose a view">
+    {slides.map((slide,i)=><button type="button" data-story-select={i} aria-pressed={i===0} aria-controls={`story-panel-${i}`}><span>0{i+1}</span>{slide.label}</button>)}
+  </div>
+  {slides.map((slide,i)=><div id={`story-panel-${i}`} class="story-panel" data-story-panel={i} hidden={i!==0} role="group" aria-roledescription="slide" aria-label={`${i+1} of 4: ${slide.label}`}>
+    <div class="story-art">
+      {slide.image ? <img src={slide.image} alt={slide.alt} width="1448" height="1086" loading={i===0?'eager':'lazy'} fetchpriority={i===0?'high':'auto'} /> : <ol class="story-steps"><li><span>01</span><strong>Define the handoff</strong><p>Service, access hours and staff responsibilities.</p></li><li><span>02</span><strong>Confirm the fit</strong><p>Full bags, wall dimensions, power and network.</p></li><li><span>03</span><strong>Connect where useful</strong><p>Review order systems and notifications before integration.</p></li></ol>}
+      {i===0 && <div class="story-compare" role="group" aria-label="Compare room views"><button type="button" data-room="before" aria-pressed="false">Before</button><button type="button" data-room="after" aria-pressed="true">With OurPort</button></div>}
+      <span class="story-concept">Illustrative concept</span>
+    </div>
+    <div class="story-caption"><h2>{slide.title}</h2><p>{slide.copy}</p></div>
+  </div>)}
+  <div class="story-controls"><span class="story-status" role="status" aria-live="polite" aria-atomic="true">1 of 4 · The wall</span><div><button type="button" data-story-prev aria-label="Previous slide">←</button><button type="button" data-story-next aria-label="Next slide">→</button></div></div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('.hero-story').forEach(story=>{
+    const selectors=Array.from(story.querySelectorAll<HTMLButtonElement>('[data-story-select]'));
+    const panels=Array.from(story.querySelectorAll<HTMLElement>('[data-story-panel]'));
+    let current=0;
+    const show=(index:number)=>{current=(index+panels.length)%panels.length;panels.forEach((panel,i)=>panel.hidden=i!==current);selectors.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===current)));story.querySelector('.story-status')!.textContent=`${current+1} of ${panels.length} · ${['The wall','Your fit','Getting started','Future options'][current]}`;};
+    selectors.forEach((button,i)=>button.addEventListener('click',()=>show(i)));
+    story.querySelector('[data-story-prev]')?.addEventListener('click',()=>show(current-1));
+    story.querySelector('[data-story-next]')?.addEventListener('click',()=>show(current+1));
+    story.addEventListener('keydown',event=>{if(event.key==='ArrowRight'||event.key==='ArrowLeft'){event.preventDefault();show(current+(event.key==='ArrowRight'?1:-1));selectors[current].focus();}});
+    let touchX=0,touchY=0;
+    story.addEventListener('touchstart',event=>{touchX=event.changedTouches[0].clientX;touchY=event.changedTouches[0].clientY;},{passive:true});
+    story.addEventListener('touchend',event=>{const dx=event.changedTouches[0].clientX-touchX,dy=event.changedTouches[0].clientY-touchY;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)show(current+(dx<0?1:-1));},{passive:true});
+    story.querySelectorAll<HTMLButtonElement>('[data-room]').forEach(button=>button.addEventListener('click',()=>{const before=button.dataset.room==='before';const img=panels[0].querySelector('img')!;img.src=before?'/images/laundromat-before.webp':'/images/laundromat-wall.webp';img.alt=before?'Illustrative laundromat room with seating along the wall, before lockers.':'Illustrative proposed OurPort locker wall inside the same laundromat.';story.querySelectorAll('[data-room]').forEach(b=>b.setAttribute('aria-pressed',String(b===button)));}));
+  });
+</script>
+<style>
+.hero-story{min-width:0;background:#fff;border:1px solid #c8d8e2;border-radius:12px;overflow:hidden;box-shadow:0 12px 32px #122c3e0d}.story-tabs{display:grid;grid-template-columns:repeat(4,1fr);background:#edf3f7;gap:1px;border-bottom:1px solid #c8d8e2}.story-tabs button{border:0;border-bottom:3px solid transparent;padding:12px 7px;background:transparent;color:#395266;font:inherit;font-size:.77rem;cursor:pointer;line-height:1.25}.story-tabs button span{display:block;font-size:.65rem;letter-spacing:.12em;margin-bottom:5px}.story-tabs button[aria-pressed=true]{background:#122c3e;color:#fff;border-bottom-color:#dca637}.hero-story button:focus-visible{outline:3px solid #b47d13;outline-offset:-3px}.story-panel[hidden]{display:none}.story-art{position:relative;aspect-ratio:1.7;background:#f6f8f8;overflow:hidden}.story-art>img{width:100%;height:100%;object-fit:contain;display:block}.story-panel:first-of-type .story-art>img{object-fit:cover}.story-compare{position:absolute;top:12px;left:12px;display:flex;background:white;padding:3px;border-radius:6px;box-shadow:0 2px 10px #122c3e26}.story-compare button{border:0;border-radius:4px;padding:7px 11px;font:inherit;font-size:.72rem;background:white;color:#122c3e;cursor:pointer}.story-compare button[aria-pressed=true]{background:#122c3e;color:white}.story-concept{position:absolute;bottom:9px;right:10px;background:#ffffffed;padding:3px 7px;border-radius:3px;font-size:.6rem;color:#395266}.story-caption{padding:18px 20px 4px;min-height:118px}.story-caption h2{font-size:1.3rem;line-height:1.2;margin:0 0 8px}.story-caption p{font-size:.9rem;line-height:1.5;margin:0;color:#526573}.story-controls{display:flex;align-items:center;justify-content:space-between;padding:10px 20px 15px;gap:10px}.story-status{font-size:.72rem;color:#526573}.story-controls>div{display:flex;gap:6px}.story-controls button{width:40px;height:36px;border:1px solid #bfcfd9;border-radius:5px;background:#fff;color:#122c3e;font-size:1.2rem;cursor:pointer}.story-controls button:hover{background:#e7f0f5}.story-steps{display:grid;grid-template-columns:repeat(3,1fr);list-style:none;padding:28px 20px;margin:0;gap:14px;height:100%;align-items:center}.story-steps li{border-top:3px solid #dca637;padding-top:12px}.story-steps li>span{display:block;font-size:1.7rem;font-weight:700;color:#6b91aa;margin-bottom:12px}.story-steps strong{display:block;font-size:1rem;line-height:1.2}.story-steps p{font-size:.78rem;line-height:1.4;margin:9px 0 0;color:#526573}@media(max-width:560px){.story-tabs button{font-size:.68rem;min-height:60px;padding:9px 4px}.story-art{aspect-ratio:1.35}.story-caption{min-height:135px;padding-inline:16px}.story-caption h2{font-size:1.16rem}.story-controls{padding-inline:16px}.story-steps{padding:20px 14px;gap:10px}.story-steps strong{font-size:.85rem}.story-steps p{font-size:.7rem}.story-steps li>span{font-size:1.4rem;margin-bottom:8px}}
+</style>
