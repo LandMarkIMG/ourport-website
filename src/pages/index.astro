@@ -3,6 +3,7 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 import CallToAction from '../components/CallToAction.astro';
 import Workflow from '../components/Workflow.astro';
 import SitePlanner from '../components/SitePlanner.astro';
+import ServicePoint from '../components/ServicePoint.astro';
 import { faqs } from '../content/site';
 ---
 <SiteLayout title="OurPort | Smart lockers for wash-and-fold laundry" description="Plan a laundry drop-off and pickup point for your laundromat, apartment community or student residence. OurPort, powered by Monetize That.">
@@ -12,15 +13,7 @@ import { faqs } from '../content/site';
   </section>
   <section class="promise-bar"><div class="container"><span>Wash-and-fold drop-off & pickup</span><span>Indoor, site-led configurations</span><span>Your operator. Your customer relationship.</span></div></section>
   <SitePlanner />
-  <section class="container information-band" aria-label="What OurPort coordinates">
-    <div class="information-intro"><p class="eyebrow">The service point, considered as a whole</p><h2>Hardware is one part of the handoff.</h2><p>OurPort brings the physical wall, laundry workflow and site requirements into one practical conversation.</p></div>
-    <div class="information-grid">
-      <article><span>01</span><h3>Service</h3><p>Who accepts, prices, processes and supports each order.</p></article>
-      <article><span>02</span><h3>Access</h3><p>When customers and staff can reach the lockers—and what happens when they cannot.</p></article>
-      <article><span>03</span><h3>Systems</h3><p>Order status, payment, notifications and the existing dashboard that must stay useful.</p></article>
-      <article><span>04</span><h3>Site</h3><p>Bag fit, wall dimensions, circulation, power, network and optional monitoring.</p></article>
-    </div>
-  </section>
+  <ServicePoint />
   <section class="section container audience-section"><div class="section-heading"><div><p class="eyebrow">Two places to start</p><h2>One handoff. <br /> Different possibilities.</h2></div><p>Bring laundry service closer to daily life—at the place it is processed, or the place people call home.</p></div><div class="audience-grid"><a class="audience-card" href="/laundromats/"><div class="card-image"><img src="/images/laundromat-wall.webp" width="1448" height="1086" alt="Illustrative laundry service wall inside a laundromat." loading="lazy" /></div><div class="audience-card-copy"><span class="eyebrow">For laundromats</span><h3>Make the wall work another shift.</h3><p>Give customers another way to leave and collect orders, while your team controls pricing, processing and service.</p><span class="text-link">Explore the laundromat wall <span aria-hidden="true">↗</span></span></div></a><a class="audience-card" href="/housing/"><div class="card-image"><img src="/images/housing-lobby.webp" width="1672" height="941" alt="Illustrative OurPort locker cabinet in a residential entry lobby." loading="lazy" /></div><div class="audience-card-copy"><span class="eyebrow">For apartments & student housing</span><h3>Laundry service, closer to home.</h3><p>Create a convenient collection point for residents and their laundry provider, with the property’s access rules in place.</p><span class="text-link">Explore the resident amenity <span aria-hidden="true">↗</span></span></div></a></div></section>
   <Workflow />
   <section class="section container fit-section"><div><p class="eyebrow">Designed around the handoff</p><h2>The bag. <br /> The people. <br /> The place.</h2><p>A useful locker starts with the things that go inside it—and the work around it.</p></div><div class="numbered-features"><article><span>01</span><div><h3>Start with a full laundry bag.</h3><p>Confirm the incoming load and finished bundle fit the clear door opening. Then choose the compartment mix.</p></div></article><article><span>02</span><div><h3>Keep the operation connected.</h3><p>Map your existing dashboard, staff handoffs and customer notifications before confirming the software setup.</p></div></article><article><span>03</span><div><h3>Make it belong in the room.</h3><p>Plan placement, access, power and connectivity together. Explore a fitted wall or repeatable locker bays.</p></div></article></div></section>

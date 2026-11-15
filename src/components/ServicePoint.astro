@@ -1,0 +1,95 @@
+---
+const questions = [
+  {
+    id: 'service-ownership',
+    topic: 'Service',
+    title: 'Who handles the laundry?',
+    body: 'Agree who accepts and prices each order, handles wash-and-fold, returns it, and answers customer questions.',
+    note: 'Agree the operator and support owner.',
+    icon: 'M14 20h20v21H14zM19 20v-5a5 5 0 0 1 10 0v5M5 29h9M9 25l4 4-4 4M34 29h9M39 25l4 4-4 4',
+  },
+  {
+    id: 'service-access',
+    topic: 'Access',
+    title: 'When can people use it?',
+    body: 'Set customer access hours, staff collection times and pickup rules around the building and laundry schedule.',
+    note: 'Define hours and pickup exceptions.',
+    icon: 'M14 10h20v32H14zM29 27h.01M4 10a8 8 0 1 0 16 0 8 8 0 1 0-16 0M12 5v5l3 2',
+  },
+  {
+    id: 'service-orders',
+    topic: 'Orders & updates',
+    title: 'How will orders stay in sync?',
+    body: 'Map order status, payments and pickup messages to the software your team already uses.',
+    note: 'Confirm compatibility before integration.',
+    icon: 'M17 5h14v13H17zM5 32h14v11H5zM29 32h14v11H29zM24 18v8M12 32v-6h24v6M21 10h6M9 37h6M33 37h6',
+  },
+  {
+    id: 'service-site',
+    topic: 'Space & fit',
+    title: 'What does the room need?',
+    body: 'Check full bag sizes, cabinet space, walking routes, power and the approved network connection.',
+    note: 'Verify the fit on site.',
+    icon: 'M7 16h34v25H7zM18 16v25M30 16v25M7 7h34M7 4v6M41 4v6M12 27h.01M24 27h.01M36 27h.01',
+  },
+];
+---
+<section class="service-point container" id="service-point" aria-labelledby="service-point-title">
+  <div class="service-point-heading">
+    <p class="eyebrow">Plan the whole handoff</p>
+    <h2 id="service-point-title">A useful locker is more than a cabinet.</h2>
+    <p>A practical plan connects the service, the people and the room. We work through four questions before a configuration is confirmed.</p>
+  </div>
+  <ol class="service-questions" aria-label="Four planning questions">
+    {questions.map((question, i) => <li class="service-question" id={question.id}>
+      <div class="service-card-top"><svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true" focusable="false"><path d={question.icon} /></svg><span class="service-number" aria-hidden="true">0{i + 1}</span></div>
+      <p class="service-topic">{question.topic}</p>
+      <h3>{question.title}</h3>
+      <p class="service-description">{question.body}</p>
+      <p class="service-note">{question.note}</p>
+    </li>)}
+  </ol>
+</section>
+<style>
+  .service-point{padding-block:54px 60px}
+  .service-point-heading{max-width:760px;margin-bottom:30px}
+  .service-point-heading .eyebrow{margin-bottom:14px}
+  .service-point-heading h2{font-size:clamp(1.9rem,3vw,2.6rem);line-height:1.12;max-width:700px}
+  .service-point-heading>p:last-child{font-size:1rem;line-height:1.6;max-width:650px;margin:17px 0 0}
+  .service-questions{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+  .service-question{min-width:0;display:flex;flex-direction:column;background:#fff;border-top:2px solid var(--ink);padding:24px 22px 22px}
+  .service-card-top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:23px}
+  .service-card-top svg{width:38px;height:38px;flex:none;fill:none;stroke:var(--ink);stroke-width:1.65;stroke-linecap:round;stroke-linejoin:round}
+  .service-number{font-size:.6875rem;letter-spacing:.12em;font-weight:700;color:#8b6727}
+  .service-topic{font-size:.6875rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);line-height:1.4;margin:0 0 11px}
+  .service-question h3{font-size:1.25rem;line-height:1.24;letter-spacing:-.025em;max-width:240px}
+  .service-description{font-size:.875rem;line-height:1.6;margin:15px 0 23px}
+  .service-note{font-size:.75rem;line-height:1.5;color:#415967;border-top:1px solid var(--line);padding-top:15px;margin:auto 0 0}
+  @media(max-width:1080px){
+    .service-questions{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .service-question{padding:25px}
+    .service-question h3{max-width:none;font-size:1.35rem}
+    .service-description{max-width:420px;margin-bottom:24px}
+    .service-card-top{margin-bottom:20px}
+  }
+  @media(max-width:800px){
+    .service-point{padding-block:40px 44px}
+    .service-point-heading{margin-bottom:25px}
+    .service-point-heading h2{font-size:2.05rem}
+    .service-point-heading>p:last-child{font-size:.9375rem;margin-top:15px}
+    .service-question{padding:23px 21px}
+    .service-question h3{font-size:1.25rem}
+  }
+  @media(max-width:560px){
+    .service-point{padding-block:34px 38px}
+    .service-point-heading h2{font-size:1.9rem;max-width:360px}
+    .service-questions{grid-template-columns:minmax(0,1fr);gap:14px}
+    .service-question{padding:22px}
+    .service-card-top{margin-bottom:18px}
+    .service-card-top svg{width:34px;height:34px}
+    .service-topic{margin-bottom:9px}
+    .service-question h3{font-size:1.25rem}
+    .service-description{margin:13px 0 20px}
+    .service-note{padding-top:13px}
+  }
+</style>

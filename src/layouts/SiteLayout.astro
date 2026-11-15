@@ -26,7 +26,7 @@ const path = Astro.url.pathname;
         <a class="brand" href="/" aria-label="OurPort home">
           <span class="brand-art brand-logo"><img src="/images/ourport-logo-reverse.jpg" width="1200" height="800" alt="OurPort — Your services arrive here. Powered by Monetize That." decoding="async" /></span>
         </a>
-        <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation" type="button">Menu <span aria-hidden="true">＋</span></button>
+        <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation" type="button" hidden>Menu <span aria-hidden="true">＋</span></button>
         <nav id="main-navigation" aria-label="Main navigation">
           {navigation.map(item => <a href={item.href} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>)}
           <details class="nav-options"><summary>Site options <span aria-hidden="true">＋</span></summary><div><a href="/cctv/" aria-current={path === '/cctv/' ? 'page' : undefined}>CCTV monitoring</a><a href="/wifi-wap/" aria-current={path === '/wifi-wap/' ? 'page' : undefined}>WiFi & WAP</a></div></details>
@@ -88,6 +88,17 @@ const path = Astro.url.pathname;
         if (mobile.matches && focusWasInNav) toggle?.focus();
       });
       nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', close));
+      if (header && nav && toggle) {
+        header.dataset.navigationReady = '';
+        toggle.hidden = false;
+      }
     </script>
   </body>
 </html>
+<style>
+  @media(max-width:800px){
+    .site-header:not([data-navigation-ready]){position:relative}
+    .site-header:not([data-navigation-ready]) .header-inner{flex-wrap:wrap;padding-block:8px;gap:12px}
+    .site-header:not([data-navigation-ready]) nav{display:flex;position:static;width:100%;max-height:none;overflow:visible;flex-direction:column;padding:12px 0 4px;box-shadow:none;border-bottom:0}
+  }
+</style>

@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1 --port 4321",
     "check:site": "node scripts/check-site.mjs",
-    "test": "node --test scripts/inquiry.test.mjs"
+    "test": "node --test scripts/inquiry.test.mjs",
+    "test:intake": "node --experimental-strip-types --test scripts/ourport-intake.test.mjs"
   },
   "dependencies": { "astro": "^5.13.0" }
 }

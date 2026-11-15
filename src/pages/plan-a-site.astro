@@ -1,45 +1,619 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
-const mode=import.meta.env.PUBLIC_INQUIRY_MODE === 'server' ? 'server' : 'email';
+const mode = import.meta.env.PUBLIC_INQUIRY_MODE === 'server' ? 'server' : 'email';
+const endpoint = import.meta.env.PUBLIC_INQUIRY_ENDPOINT || 'https://xpdnhfgfbgcunlmuyjrx.supabase.co/functions/v1/ourport-intake';
 ---
 <SiteLayout title="Plan a laundry locker site | OurPort" description="Tell us about your laundromat, apartment community or building project. Start a conversation about fit, service and pricing.">
   <div class="container inquiry-layout">
-    <section class="inquiry-intro"><p class="eyebrow">Let’s start with your site</p><h1>A few details. <br /> A useful <br /> conversation.</h1><p class="lead">Tell us where you’re planning and what you have today. We’ll work through the service, space and fit together.</p><div class="inquiry-contact"><p>Prefer to get in touch directly?</p><a href="mailto:Mike@Monetize-that.com">Mike@Monetize-that.com</a></div><p class="inquiry-note">You don’t need final dimensions or a chosen locker. A working idea is enough to begin.</p></section>
-    <form class="inquiry-form" id="site-inquiry" data-mode={mode} novalidate>
+    <section class="inquiry-intro">
+      <p class="eyebrow">Let’s start with your site</p>
+      <h1>A few details. <br /> A useful <br /> conversation.</h1>
+      <p class="lead">Tell us where you’re planning and what you have today. We’ll work through the service, space and fit together.</p>
+      <div class="inquiry-contact"><p>Prefer to get in touch directly?</p><a href="mailto:Mike@Monetize-that.com">Mike@Monetize-that.com</a></div>
+      <p class="inquiry-note">You don’t need final dimensions or a chosen locker. A working idea is enough to begin.</p>
+    </section>
+    <div id="inquiry-fallback" class="noscript-note">
+      <p>Email <a href="mailto:Mike@Monetize-that.com?cc=Joe%40monetize-that.com">Mike and Joe at Monetize That</a> with your name, city and state, and the kind of site you’re planning.</p>
+    </div>
+    <form class="inquiry-form" id="site-inquiry" data-mode={mode} data-endpoint={endpoint} aria-describedby="inquiry-privacy" novalidate hidden>
       <div id="form-errors" class="form-errors" role="alert" tabindex="-1" hidden></div>
-      <fieldset><legend>What are you planning?</legend><div class="role-options"><label class="role-choice"><input type="radio" name="role" value="laundromat" checked />Laundromat</label><label class="role-choice"><input type="radio" name="role" value="housing" />Apartment or student housing</label><label class="role-choice"><input type="radio" name="role" value="builder" />Builder or developer</label></div></fieldset>
-      <fieldset><legend>Your contact & location</legend><div class="form-grid"><label>Your name<input name="contactName" autocomplete="name" required maxlength="120" aria-describedby="error-contactName" /><span class="field-error" id="error-contactName"></span></label><label>Email<input name="email" type="email" autocomplete="email" required maxlength="254" aria-describedby="error-email" /><span class="field-error" id="error-email"></span></label><label>Site or project name <small>optional</small><input name="projectName" autocomplete="organization" maxlength="180" /></label><label>City and state<input name="location" autocomplete="address-level2" required maxlength="180" aria-describedby="error-location" /><span class="field-error" id="error-location"></span></label><label>Number of locations <small>optional</small><input name="locationCount" type="number" min="1" max="10000" step="1" inputmode="numeric" aria-describedby="error-locationCount" /><span class="field-error" id="error-locationCount"></span></label><label>Current laundry service <small>optional</small><select name="currentService"><option value="">Not sure yet</option><option>Wash-and-fold in place</option><option>Planning wash-and-fold</option><option>Pickup and delivery</option><option>No laundry service yet</option></select></label></div></fieldset>
-      <label>What would you like the site to do? <small>optional</small><textarea name="note" maxlength="2000" placeholder="A new drop-off point, easier pickup, a resident amenity…"></textarea></label>
-      <details class="form-details"><summary>Add a little about your setup <span>Optional · you can share this later</span></summary><p>Only share what you know. “Not sure yet” is fine.</p>
-        <fieldset data-branch="laundromat"><legend>Your laundry operation</legend><label>Current order or point-of-sale system<input name="dashboard" maxlength="180" placeholder="Platform name, or not sure yet" /></label><div class="form-grid"><label>Staffed processing hours<input name="processingHours" maxlength="180" /></label><label>Customer access hours<input name="accessHours" maxlength="180" /></label></div><label>Full bag & finished-order size<input name="bagSize" maxlength="300" placeholder="If known; include units and loading orientation" /></label></fieldset>
-        <fieldset data-branch="housing" hidden disabled><legend>Your community</legend><label>Number of homes or student beds<input name="homesOrBeds" type="number" min="1" max="100000" step="1" aria-describedby="error-homesOrBeds" /><span class="field-error" id="error-homesOrBeds"></span></label><label>Laundry provider<select name="providerStatus"><option value="">Not sure yet</option><option>Already selected</option><option>In discussion</option><option>Looking for a provider</option></select></label><label>Resident app or access system<input name="residentSystem" maxlength="180" /></label></fieldset>
-        <fieldset data-branch="builder" hidden disabled><legend>Your building project</legend><label>Project stage<select name="siteStage"><option value="">Not sure yet</option><option>Early planning</option><option>Design development</option><option>Under construction</option><option>Existing-site retrofit</option></select></label><label>Available wall dimensions<input name="wallDimensions" maxlength="200" placeholder="If known; include units" /></label><label>Power, network or access considerations<textarea name="siteConstraints" maxlength="1000"></textarea></label></fieldset>
-      </details>
-      <div class="hp-field" aria-hidden="true"><label>Company website<input name="website" tabindex="-1" autocomplete="off" /></label></div>
-      <button class="button" type="submit" id="review-button">Review your inquiry <span aria-hidden="true">↗</span></button>
-      <p class="form-submit-note">{mode==='email' ? 'Review your details, then open an email to Mike. Nothing is sent or stored by this page.' : 'Your details are used to respond to this business inquiry. Please do not include resident information or laundry-order details.'}</p>
-      <section id="inquiry-review" class="review-panel" tabindex="-1" hidden><p class="eyebrow">Your site inquiry</p><h2>Ready for a conversation.</h2><dl id="review-values"></dl><div class="review-actions"><a class="button" id="email-inquiry" href="mailto:Mike@Monetize-that.com" hidden>Open inquiry email <span aria-hidden="true">↗</span></a><button class="button" id="send-inquiry" type="button" hidden>Send inquiry <span aria-hidden="true">↗</span></button><button class="button button-outline" id="copy-inquiry" type="button">Copy details</button><button class="button button-outline" id="edit-inquiry" type="button">Edit details</button></div><p id="review-help">Your email app will open a draft addressed to Mike. Review it and send when you’re ready.</p><p id="form-status" class="form-status" role="status"></p></section>
-      <noscript><p class="noscript-note">To discuss a site, email <a href="mailto:Mike@Monetize-that.com">Mike@Monetize-that.com</a> with your name, location and project type. This form needs JavaScript to prepare an inquiry.</p></noscript>
+      <fieldset id="inquiry-fields" class="inquiry-fields" disabled>
+        <fieldset>
+          <legend>What are you planning?</legend>
+          <div class="role-options">
+            <label class="role-choice"><input type="radio" name="role" value="laundromat" checked />Laundromat</label>
+            <label class="role-choice"><input type="radio" name="role" value="housing" />Apartment or student housing</label>
+            <label class="role-choice"><input type="radio" name="role" value="builder" />Builder or developer</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Your contact & location</legend>
+          <p class="form-required-note">Your name, email, and city and state are required. Everything else is optional.</p>
+          <div class="form-grid">
+            <label><span id="label-contactName">Your name</span><input id="field-contactName" name="contactName" autocomplete="name" required maxlength="120" aria-labelledby="label-contactName" aria-describedby="error-contactName" /><span class="field-error" id="error-contactName"></span></label>
+            <label><span id="label-email">Email</span><input id="field-email" name="email" type="email" autocomplete="email" required maxlength="254" aria-labelledby="label-email" aria-describedby="error-email" /><span class="field-error" id="error-email"></span></label>
+            <label><span id="label-projectName">Site or project name <small>optional</small></span><input id="field-projectName" name="projectName" autocomplete="organization" maxlength="180" aria-labelledby="label-projectName" aria-describedby="error-projectName" /><span class="field-error" id="error-projectName"></span></label>
+            <label><span id="label-location">City and state</span><input id="field-location" name="location" autocomplete="address-level2" required maxlength="180" aria-labelledby="label-location" aria-describedby="error-location" /><span class="field-error" id="error-location"></span></label>
+            <label><span id="label-locationCount">Number of locations <small>optional</small></span><input id="field-locationCount" name="locationCount" type="number" min="1" max="10000" step="1" inputmode="numeric" aria-labelledby="label-locationCount" aria-describedby="error-locationCount" /><span class="field-error" id="error-locationCount"></span></label>
+            <label><span id="label-currentService">Current laundry service <small>optional</small></span><select id="field-currentService" name="currentService" aria-labelledby="label-currentService"><option value="">Not sure yet</option><option>Wash-and-fold in place</option><option>Planning wash-and-fold</option><option>Pickup and delivery</option><option>No laundry service yet</option></select></label>
+          </div>
+        </fieldset>
+        <label><span id="label-note">What would you like the site to do? <small>optional</small></span><textarea id="field-note" name="note" maxlength="2000" placeholder="A new drop-off point, easier pickup, a resident amenity…" aria-labelledby="label-note" aria-describedby="error-note"></textarea><span class="field-error" id="error-note"></span></label>
+        <details class="form-details">
+          <summary>Add a little about your setup <span>Optional · you can share this later</span></summary>
+          <p>Only share what you know. “Not sure yet” is fine.</p>
+          <fieldset data-branch="laundromat">
+            <legend>Your laundry operation</legend>
+            <label><span id="label-dashboard">Current order or point-of-sale system</span><input id="field-dashboard" name="dashboard" maxlength="180" placeholder="Platform name, or not sure yet" aria-labelledby="label-dashboard" aria-describedby="error-dashboard" /><span class="field-error" id="error-dashboard"></span></label>
+            <div class="form-grid">
+              <label><span id="label-processingHours">Staffed processing hours</span><input id="field-processingHours" name="processingHours" maxlength="180" aria-labelledby="label-processingHours" aria-describedby="error-processingHours" /><span class="field-error" id="error-processingHours"></span></label>
+              <label><span id="label-accessHours">Customer access hours</span><input id="field-accessHours" name="accessHours" maxlength="180" aria-labelledby="label-accessHours" aria-describedby="error-accessHours" /><span class="field-error" id="error-accessHours"></span></label>
+            </div>
+            <label><span id="label-bagSize">Full bag & finished-order size</span><input id="field-bagSize" name="bagSize" maxlength="300" placeholder="If known; include units and loading orientation" aria-labelledby="label-bagSize" aria-describedby="error-bagSize" /><span class="field-error" id="error-bagSize"></span></label>
+          </fieldset>
+          <fieldset data-branch="housing" hidden disabled>
+            <legend>Your community</legend>
+            <label><span id="label-homesOrBeds">Number of homes or student beds</span><input id="field-homesOrBeds" name="homesOrBeds" type="number" min="1" max="100000" step="1" inputmode="numeric" aria-labelledby="label-homesOrBeds" aria-describedby="error-homesOrBeds" /><span class="field-error" id="error-homesOrBeds"></span></label>
+            <label><span id="label-providerStatus">Laundry provider</span><select id="field-providerStatus" name="providerStatus" aria-labelledby="label-providerStatus"><option value="">Not sure yet</option><option>Already selected</option><option>In discussion</option><option>Looking for a provider</option></select></label>
+            <label><span id="label-residentSystem">Resident app or access system</span><input id="field-residentSystem" name="residentSystem" maxlength="180" aria-labelledby="label-residentSystem" aria-describedby="error-residentSystem" /><span class="field-error" id="error-residentSystem"></span></label>
+          </fieldset>
+          <fieldset data-branch="builder" hidden disabled>
+            <legend>Your building project</legend>
+            <label><span id="label-siteStage">Project stage</span><select id="field-siteStage" name="siteStage" aria-labelledby="label-siteStage"><option value="">Not sure yet</option><option>Early planning</option><option>Design development</option><option>Under construction</option><option>Existing-site retrofit</option></select></label>
+            <label><span id="label-wallDimensions">Available wall dimensions</span><input id="field-wallDimensions" name="wallDimensions" maxlength="200" placeholder="If known; include units" aria-labelledby="label-wallDimensions" aria-describedby="error-wallDimensions" /><span class="field-error" id="error-wallDimensions"></span></label>
+            <label><span id="label-siteConstraints">Power, network or access considerations</span><textarea id="field-siteConstraints" name="siteConstraints" maxlength="1000" aria-labelledby="label-siteConstraints" aria-describedby="error-siteConstraints"></textarea><span class="field-error" id="error-siteConstraints"></span></label>
+          </fieldset>
+        </details>
+        {mode === 'server' && <div class="progress-sharing">
+          <label class="progress-choice"><input id="progress-consent" name="progressConsent" type="checkbox" aria-describedby="progress-help draft-status" /><span>Share my progress with OurPort so Mike and Joe at Monetize That can follow up, even if I don’t finish.</span></label>
+          <p id="progress-help" class="fineprint">Optional. You can send a completed inquiry without sharing unfinished progress.</p>
+          <p id="draft-status" class="fineprint draft-status" role="status"></p>
+          <p id="progress-identity-note" class="fineprint" hidden>Changing the email starts a separate inquiry. Earlier shared progress stays with the previous email.</p>
+          <button id="retry-progress" class="progress-retry" type="button" hidden>Try saving progress again</button>
+        </div>}
+        <div class="hp-field" aria-hidden="true"><label>Company website<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+        <button class="button" type="submit" id="review-button">Review your inquiry <span aria-hidden="true">↗</span></button>
+      </fieldset>
+      <p id="inquiry-privacy" class="form-submit-note">{mode === 'email' ? 'Review your details, then open an email to OurPort / Monetize That. This page does not send or store your inquiry. Please leave out resident information and laundry-order details.' : 'OurPort / Monetize That uses these details to review your site and follow up. Your inquiry is sent when you choose Send inquiry. If you opt in to progress sharing, details can also be saved before you finish. Please leave out resident information and laundry-order details.'}</p>
+      <section id="inquiry-review" class="review-panel" aria-labelledby="review-title" tabindex="-1" hidden>
+        <p class="eyebrow">Your site inquiry</p>
+        <h2 id="review-title">Ready for a conversation.</h2>
+        <dl id="review-values"></dl>
+        <div class="review-actions">
+          <a class="button" id="email-inquiry" href="mailto:Mike@Monetize-that.com?cc=Joe%40monetize-that.com" hidden>Open email to Mike and Joe <span aria-hidden="true">↗</span></a>
+          <button class="button" id="send-inquiry" type="button" hidden>Send inquiry <span aria-hidden="true">↗</span></button>
+          <button class="button button-outline" id="copy-inquiry" type="button">Copy details</button>
+          <button class="button button-outline" id="edit-inquiry" type="button">Edit details</button>
+          <button class="button button-outline" id="new-inquiry" type="button" hidden>Start another inquiry</button>
+        </div>
+        <p id="review-help">Your email app will open a draft addressed to Mike and copied to Joe. Review it and send when you’re ready.</p>
+        <p id="form-status" class="form-status" role="status"></p>
+        <p id="receipt-reference" class="fineprint receipt-reference" hidden></p>
+      </section>
     </form>
   </div>
   <script>
-    const form=document.querySelector<HTMLFormElement>('#site-inquiry')!;
-    const review=document.querySelector<HTMLElement>('#inquiry-review')!;
-    const errors=document.querySelector<HTMLElement>('#form-errors')!;
-    const status=document.querySelector<HTMLElement>('#form-status')!;
-    const names:Record<string,string>={role:'Project type',contactName:'Contact',email:'Email',projectName:'Project',location:'City / state',locationCount:'Locations',currentService:'Current service',note:'Your plans',dashboard:'Order system',processingHours:'Processing hours',accessHours:'Access hours',bagSize:'Bag / return size',homesOrBeds:'Homes / beds',providerStatus:'Laundry provider',residentSystem:'Resident system',siteStage:'Site stage',wallDimensions:'Wall dimensions',siteConstraints:'Site considerations'};
-    const roleNames:Record<string,string>={laundromat:'Laundromat',housing:'Apartment / student housing',builder:'Builder / developer'};
-    let snapshot:Record<string,string>={}; let emailText=''; let sending=false; let requestId=''; let previousPayload='';
-    function updateRole(){const role=(form.elements.namedItem('role') as RadioNodeList).value;form.querySelectorAll<HTMLFieldSetElement>('[data-branch]').forEach(branch=>{branch.hidden=branch.dataset.branch!==role;branch.disabled=branch.hidden;});review.hidden=true;}
-    const selected=new URLSearchParams(location.search).get('role');
-    if(selected && Object.hasOwn(roleNames,selected)){(form.querySelector(`input[name="role"][value="${selected}"]`) as HTMLInputElement).checked=true;}
-    updateRole();
-    form.querySelectorAll('input[name="role"]').forEach(r=>r.addEventListener('change',updateRole));
-    form.addEventListener('input',()=>{if(!sending)review.hidden=true;});
-    function validate(){errors.hidden=true;let messages:string[]=[];form.querySelectorAll<HTMLInputElement>('input').forEach(input=>{if(input.disabled || input.closest('fieldset[disabled]') || input.name==='website')return;const target=document.getElementById('error-'+input.name);let message='';if(input.required && !input.value.trim())message=input.name==='contactName'?'Please enter your name.':input.name==='email'?'Please enter your email.':'Please enter the city and state.';else if(input.value && !input.checkValidity())message=input.type==='email'?'Please enter a valid email address.':'Please enter a whole number within the indicated range.';input.setAttribute('aria-invalid',String(Boolean(message)));if(target)target.textContent=message;if(message)messages.push(message);});if(messages.length){errors.textContent=messages.join(' ');errors.hidden=false;errors.focus();return false;}return true;}
-    form.addEventListener('submit',event=>{event.preventDefault();if(!validate())return;snapshot={};for(const [key,value] of new FormData(form)){if(names[key] && typeof value==='string' && value.trim())snapshot[key]=value.trim();}const payload=JSON.stringify(snapshot);if(payload!==previousPayload){requestId=crypto.randomUUID();previousPayload=payload;}const list=document.querySelector('#review-values')!;list.replaceChildren();for(const [key,value] of Object.entries(snapshot)){const dt=document.createElement('dt'),dd=document.createElement('dd');dt.textContent=names[key];dd.textContent=key==='role'?roleNames[value]:value;list.append(dt,dd);}emailText='OurPort site inquiry\n\n'+Object.entries(snapshot).map(([key,value])=>`${names[key]}: ${key==='role'?roleNames[value]:value}`).join('\n');const email=document.querySelector<HTMLAnchorElement>('#email-inquiry')!;const server=form.dataset.mode==='server';email.hidden=server;email.href='mailto:Mike@Monetize-that.com?subject='+encodeURIComponent('OurPort site inquiry — '+(snapshot.projectName||snapshot.location))+'&body='+encodeURIComponent(emailText);document.querySelector<HTMLElement>('#send-inquiry')!.hidden=!server;document.querySelector('#review-help')!.textContent=server?'Check your details before sending.':'Your email app will open a draft addressed to Mike. Review it and send when you’re ready. If the draft does not open, copy these details into an email to Mike@Monetize-that.com.';review.hidden=false;status.textContent='';review.focus();});
-    document.querySelector('#edit-inquiry')!.addEventListener('click',()=>{review.hidden=true;(form.elements.namedItem('contactName') as HTMLInputElement).focus();});
-    document.querySelector('#copy-inquiry')!.addEventListener('click',async()=>{try{await navigator.clipboard.writeText(emailText);status.textContent='Details copied. Paste them into your email to Mike@Monetize-that.com.';}catch{status.textContent='Copy is unavailable in this browser. Select the details above and copy them manually.';}});
-    document.querySelector('#send-inquiry')!.addEventListener('click',async()=>{if(sending)return;sending=true;const button=document.querySelector<HTMLButtonElement>('#send-inquiry')!;button.disabled=true;status.textContent='Sending your inquiry…';try{const response=await fetch('/api/site-inquiry',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...snapshot,requestId,website:(form.elements.namedItem('website') as HTMLInputElement).value,sourcePath:location.pathname}),signal:AbortSignal.timeout(15000)});if(!response.ok)throw new Error('Not saved');const receipt=await response.json();if(receipt.ok!==true)throw new Error('Receipt not confirmed');status.textContent='Thanks. We’ll review the site and follow up about fit and pricing.';button.hidden=true;document.querySelector('#review-help')!.textContent='Your inquiry has been received.';}catch{status.textContent='We couldn’t confirm receipt. Your details are still here. Retry, or open an email to Mike.';document.querySelector<HTMLElement>('#email-inquiry')!.hidden=false;}finally{sending=false;button.disabled=false;}});
+    type InquiryControl = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    type InquiryPhase = 'editing' | 'review' | 'sending' | 'received';
+    type InquiryStage = 'draft' | 'submitted';
+    type Receipt = {id: string; created_at: string; revision: number; stage: InquiryStage};
+    type UpdateIntent = {stage: InquiryStage; data: Record<string, string>; progressConsent: boolean; website: string};
+    type Identity = {
+      requestId: string;
+      editToken: string;
+      email: string;
+      revision: number;
+      prepared: PreparedUpdate | null;
+      draftIssued: boolean;
+      submitted: boolean;
+      withdrawn: boolean;
+      withdrawalQueued: boolean;
+    };
+    type PreparedUpdate = {identity: Identity; intent: UpdateIntent; signature: string; body: string; revision: number};
+    const form = document.querySelector<HTMLFormElement>('#site-inquiry')!;
+    const fields = document.querySelector<HTMLFieldSetElement>('#inquiry-fields')!;
+    const review = document.querySelector<HTMLElement>('#inquiry-review')!;
+    const errors = document.querySelector<HTMLElement>('#form-errors')!;
+    const status = document.querySelector<HTMLElement>('#form-status')!;
+    const title = document.querySelector<HTMLElement>('#review-title')!;
+    const help = document.querySelector<HTMLElement>('#review-help')!;
+    const receiptReference = document.querySelector<HTMLElement>('#receipt-reference')!;
+    const email = document.querySelector<HTMLAnchorElement>('#email-inquiry')!;
+    const send = document.querySelector<HTMLButtonElement>('#send-inquiry')!;
+    const copy = document.querySelector<HTMLButtonElement>('#copy-inquiry')!;
+    const edit = document.querySelector<HTMLButtonElement>('#edit-inquiry')!;
+    const startAnother = document.querySelector<HTMLButtonElement>('#new-inquiry')!;
+    const progressConsent = document.querySelector<HTMLInputElement>('#progress-consent');
+    const draftStatus = document.querySelector<HTMLElement>('#draft-status');
+    const identityNote = document.querySelector<HTMLElement>('#progress-identity-note');
+    const retryProgress = document.querySelector<HTMLButtonElement>('#retry-progress');
+    const serverMode = form.dataset.mode === 'server';
+    const endpoint = form.dataset.endpoint || '';
+    const localDevelopment = import.meta.env.DEV;
+    const names: Record<string, string> = {role:'Project type',contactName:'Contact',email:'Email',projectName:'Project',location:'City / state',locationCount:'Locations',currentService:'Current service',note:'Your plans',dashboard:'Order system',processingHours:'Processing hours',accessHours:'Access hours',bagSize:'Bag / return size',homesOrBeds:'Homes / beds',providerStatus:'Laundry provider',residentSystem:'Resident system',siteStage:'Site stage',wallDimensions:'Wall dimensions',siteConstraints:'Site considerations'};
+    const roleNames: Record<string, string> = {laundromat:'Laundromat',housing:'Apartment / student housing',builder:'Builder / developer'};
+    const controls = Array.from(form.querySelectorAll<InquiryControl>('input:not([type=radio]):not([type=checkbox]), select, textarea')).filter(control => control.name !== 'website');
+    const fieldErrors = new Map<string, string>();
+    let phase: InquiryPhase = 'editing';
+    let snapshot: Record<string, string> | null = null;
+    let emailText = '';
+    let currentIdentity: Identity | null = null;
+    let identities: Identity[] = [];
+    let pendingUpdate: UpdateIntent | null = null;
+    let pendingWithdrawals: Identity[] = [];
+    let processing: Promise<void> | null = null;
+    let draftTimer: number | undefined;
+
+    function syncRole() {
+      const role = (form.elements.namedItem('role') as RadioNodeList).value;
+      form.querySelectorAll<HTMLFieldSetElement>('[data-branch]').forEach(branch => {
+        branch.hidden = branch.dataset.branch !== role;
+        branch.disabled = branch.hidden;
+      });
+    }
+
+    function setFieldError(control: InquiryControl, message: string) {
+      if (message) control.setAttribute('aria-invalid', 'true');
+      else control.removeAttribute('aria-invalid');
+      const target = document.getElementById('error-' + control.name);
+      if (target) target.textContent = message;
+    }
+
+    function clearErrors() {
+      fieldErrors.clear();
+      controls.forEach(control => setFieldError(control, ''));
+      errors.replaceChildren();
+      errors.hidden = true;
+    }
+
+    function renderErrors(focus = false) {
+      errors.replaceChildren();
+      errors.hidden = fieldErrors.size === 0;
+      if (!fieldErrors.size) return;
+      const intro = document.createElement('p');
+      intro.textContent = 'Please check these details:';
+      const list = document.createElement('ul');
+      for (const [name, message] of fieldErrors) {
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = '#field-' + name;
+        link.dataset.errorField = name;
+        link.textContent = message;
+        item.append(link);
+        list.append(item);
+      }
+      errors.append(intro, list);
+      if (focus) errors.focus();
+    }
+
+    function validationMessage(control: InquiryControl) {
+      const value = control.value.trim();
+      if (control.required && !value) {
+        if (control.name === 'contactName') return 'Enter your name.';
+        if (control.name === 'email') return 'Enter your email address.';
+        return 'Enter the city and state.';
+      }
+      if (control instanceof HTMLInputElement && control.type === 'number') {
+        if (!value && !control.validity.badInput) return '';
+        const number = Number(value);
+        if (control.validity.badInput || !Number.isSafeInteger(number) || number < Number(control.min) || number > Number(control.max)) {
+          return control.name === 'homesOrBeds' ? 'Enter a whole number of homes or beds from 1 to 100,000.' : 'Enter a whole number of locations from 1 to 10,000.';
+        }
+      }
+      if (!value) return '';
+      if (control.name === 'email' && (!control.checkValidity() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))) return 'Enter a valid email address.';
+      if ('maxLength' in control && control.maxLength >= 0 && control.value.length > control.maxLength) return `${names[control.name]} must be ${control.maxLength.toLocaleString()} characters or fewer.`;
+      return '';
+    }
+
+    function validate() {
+      clearErrors();
+      controls.forEach(control => {
+        if (control.matches(':disabled')) return;
+        const message = validationMessage(control);
+        setFieldError(control, message);
+        if (message) {
+          fieldErrors.set(control.name, message);
+          const details = control.closest<HTMLDetailsElement>('details');
+          if (details) details.open = true;
+        }
+      });
+      renderErrors(true);
+      return fieldErrors.size === 0;
+    }
+
+    function collectSnapshot(draft = false) {
+      const result: Record<string, string> = {};
+      for (const [key, value] of new FormData(form)) {
+        if (!Object.hasOwn(names, key) || typeof value !== 'string' || !value.trim()) continue;
+        const control = controls.find(item => item.name === key);
+        if (draft && control && validationMessage(control)) continue;
+        result[key] = value.trim();
+      }
+      return result;
+    }
+
+    function invalidateReview() {
+      if (phase === 'sending' || phase === 'received') return;
+      phase = 'editing';
+      review.hidden = true;
+      status.textContent = '';
+    }
+
+    function setBusy(busy: boolean) {
+      fields.disabled = busy || phase === 'received';
+      [send, copy, edit, startAnother].forEach(button => { button.disabled = busy; });
+    }
+
+    function progressMessage(message: string, retry = false) {
+      if (draftStatus && draftStatus.textContent !== message) draftStatus.textContent = message;
+      if (retryProgress) retryProgress.hidden = !retry || !progressConsent?.checked || phase === 'sending' || phase === 'received';
+    }
+
+    function stopDraftTimer() {
+      if (draftTimer !== undefined) window.clearTimeout(draftTimer);
+      draftTimer = undefined;
+    }
+
+    function eligibleForDraft() {
+      if (!serverMode || !progressConsent?.checked || phase === 'sending' || phase === 'received') return false;
+      const emailControl = form.elements.namedItem('email') as HTMLInputElement;
+      const role = (form.elements.namedItem('role') as RadioNodeList).value;
+      return Object.hasOwn(roleNames, role) && Boolean(emailControl.value.trim()) && validationMessage(emailControl) === '';
+    }
+
+    function scheduleDraft(delay = 1500) {
+      stopDraftTimer();
+      if (!serverMode || !progressConsent?.checked || phase === 'sending' || phase === 'received') return;
+      if (!eligibleForDraft()) {
+        if (pendingUpdate?.stage === 'draft') pendingUpdate = null;
+        progressMessage('Add a valid email address to share your progress.');
+        return;
+      }
+      progressMessage('Changes waiting to be saved…');
+      draftTimer = window.setTimeout(() => {
+        draftTimer = undefined;
+        if (!eligibleForDraft()) return;
+        pendingUpdate = {
+          stage: 'draft',
+          data: collectSnapshot(true),
+          progressConsent: true,
+          website: (form.elements.namedItem('website') as HTMLInputElement).value,
+        };
+        runQueue();
+      }, delay);
+    }
+
+    function identityFor(data: Record<string, string>) {
+      const address = data.email.trim().toLowerCase();
+      if (currentIdentity?.email === address) return currentIdentity;
+      const previous = currentIdentity;
+      currentIdentity = {
+        requestId: crypto.randomUUID(),
+        editToken: Array.from(crypto.getRandomValues(new Uint8Array(32)), byte => byte.toString(16).padStart(2, '0')).join(''),
+        email: address,
+        revision: 0,
+        prepared: null,
+        draftIssued: false,
+        submitted: false,
+        withdrawn: false,
+        withdrawalQueued: false,
+      };
+      identities.push(currentIdentity);
+      if (previous?.draftIssued && identityNote) identityNote.hidden = false;
+      return currentIdentity;
+    }
+
+    function prepare(intent: UpdateIntent): PreparedUpdate {
+      const identity = identityFor(intent.data);
+      const signature = JSON.stringify(intent);
+      if (identity.prepared?.signature === signature) return identity.prepared;
+      const revision = identity.revision + 1;
+      const body = JSON.stringify({...intent.data, progressConsent: intent.progressConsent, requestId: identity.requestId, editToken: identity.editToken, revision, stage: intent.stage, website: intent.website, sourcePath: location.pathname});
+      if (new TextEncoder().encode(body).byteLength > 16384) throw new Error('size');
+      const prepared = {identity, intent, signature, body, revision};
+      identity.revision = revision;
+      identity.prepared = prepared;
+      return prepared;
+    }
+
+    async function post(body: string) {
+      const destination = new URL(endpoint);
+      const loopback = localDevelopment && destination.protocol === 'http:' && destination.hostname === location.hostname && ['127.0.0.1', 'localhost'].includes(destination.hostname);
+      if ((destination.protocol !== 'https:' && !loopback) || destination.username || destination.password) throw new Error('endpoint');
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 15000);
+      try {
+        const response = await fetch(destination.href, {
+          method: 'POST',
+          credentials: 'omit',
+          headers: {'Content-Type': 'application/json'},
+          body,
+          signal: controller.signal,
+        });
+        const result = response.ok ? await response.json() : null;
+        return {response, result};
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    }
+
+    function responseFailure(response: Response) {
+      if (response.status === 400) return 'Some details could not be accepted. Check the fields and try again, or open an email to Mike and Joe.';
+      if (response.status === 403) return 'Online inquiries are unavailable from this page. Open an email to Mike and Joe, or copy your details.';
+      if (response.status === 413) return 'Your inquiry is too long to send. Shorten the notes or site details, then review it again.';
+      if (response.status === 429) {
+        const seconds = Number(response.headers.get('retry-after'));
+        return Number.isFinite(seconds) && seconds > 0 && seconds <= 3600 ? `Please wait ${Math.ceil(seconds)} seconds before trying again. Your details are still here.` : 'Please wait a minute before trying again. Your details are still here.';
+      }
+      return 'We couldn’t confirm receipt. Your details are still here. Try sending again, or open an email to Mike and Joe.';
+    }
+
+    function validReceipt(value: unknown, prepared: PreparedUpdate): value is Receipt {
+      const receipt = value as Receipt | undefined;
+      return Boolean(receipt && typeof receipt.id === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(receipt.id) && typeof receipt.created_at === 'string' && Number.isFinite(Date.parse(receipt.created_at)) && Number.isSafeInteger(receipt.revision) && receipt.revision === prepared.revision && receipt.stage === prepared.intent.stage);
+    }
+
+    function confirmSubmission(receipt: Receipt, identity: Identity) {
+      identity.submitted = true;
+      phase = 'received';
+      stopDraftTimer();
+      if (pendingUpdate?.stage === 'draft') pendingUpdate = null;
+      title.textContent = 'Your inquiry is received.';
+      status.textContent = 'Thanks. Your inquiry is saved, and a summary is queued for Mike and Joe at Monetize That.';
+      help.textContent = 'Keep the reference below if you need to follow up.';
+      receiptReference.textContent = 'Inquiry reference: ' + receipt.id;
+      receiptReference.hidden = false;
+      send.hidden = true;
+      email.hidden = true;
+      edit.hidden = true;
+      startAnother.hidden = false;
+      progressMessage('Your completed inquiry has been received. Progress sharing is finished for this inquiry.');
+      setBusy(false);
+    }
+
+    async function performUpdate(intent: UpdateIntent) {
+      let failure = 'We couldn’t confirm receipt. Your details are still here. Try sending again, or open an email to Mike and Joe.';
+      try {
+        const prepared = prepare(intent);
+        if (intent.stage === 'draft') {
+          prepared.identity.draftIssued = true;
+          prepared.identity.withdrawn = false;
+          progressMessage('Saving your progress…');
+        }
+        const {response, result} = await post(prepared.body);
+        if (!response.ok) {
+          failure = responseFailure(response);
+          throw new Error('not-confirmed');
+        }
+        if (result?.ok !== true || result.notifications !== 'queued' || !validReceipt(result.receipt, prepared)) throw new Error('receipt');
+        if (intent.stage === 'submitted') confirmSubmission(result.receipt, prepared.identity);
+        else if (progressConsent?.checked && phase !== 'received' && prepared.identity === currentIdentity) {
+          progressMessage(draftTimer !== undefined || pendingUpdate?.stage === 'draft' ? 'Changes waiting to be saved…' : 'Progress saved. A follow-up summary is queued for Mike and Joe if you leave this unfinished.');
+        }
+      } catch (error) {
+        if (error instanceof Error && error.message === 'size') failure = 'Your inquiry is too long to send. Shorten the notes or site details, then review it again.';
+        if (intent.stage === 'draft') {
+          if (progressConsent?.checked && phase !== 'received') progressMessage('We couldn’t confirm that your progress was saved. You can try again or send a completed inquiry.', true);
+        } else {
+          phase = 'review';
+          status.textContent = failure;
+          send.textContent = 'Try sending again ↗';
+          email.hidden = false;
+          setBusy(false);
+        }
+      }
+    }
+
+    async function performWithdrawal(identity: Identity) {
+      try {
+        const {response, result} = await post(JSON.stringify({stage: 'withdraw', requestId: identity.requestId, editToken: identity.editToken}));
+        if (!response.ok) throw new Error('withdrawal');
+        if (result?.ok !== true || result.withdrawn !== true) throw new Error('withdrawal');
+        identity.withdrawn = true;
+        identity.prepared = null;
+        if (!progressConsent?.checked) progressMessage('Progress sharing paused.');
+      } catch {
+        if (!progressConsent?.checked) progressMessage('Further updates are paused on this page. We couldn’t confirm cancellation of an earlier progress email.');
+      } finally {
+        identity.withdrawalQueued = false;
+      }
+    }
+
+    async function drainQueue() {
+      while (pendingWithdrawals.length || pendingUpdate) {
+        const withdrawal = pendingWithdrawals.shift();
+        if (withdrawal) {
+          await performWithdrawal(withdrawal);
+          continue;
+        }
+        const intent = pendingUpdate!;
+        pendingUpdate = null;
+        if (intent.stage === 'draft' && !progressConsent?.checked) continue;
+        await performUpdate(intent);
+      }
+    }
+
+    function runQueue() {
+      if (processing) return;
+      processing = drainQueue().finally(() => {
+        processing = null;
+        if (pendingWithdrawals.length || pendingUpdate) runQueue();
+      });
+    }
+
+    function pauseProgress() {
+      stopDraftTimer();
+      if (pendingUpdate?.stage === 'draft') pendingUpdate = null;
+      let queued = false;
+      for (const identity of identities) {
+        if (!identity.draftIssued || identity.submitted || identity.withdrawn || identity.withdrawalQueued) continue;
+        identity.withdrawalQueued = true;
+        pendingWithdrawals.push(identity);
+        queued = true;
+      }
+      progressMessage(queued ? 'Pausing progress sharing…' : 'Progress sharing paused.');
+      if (queued) runQueue();
+    }
+
+    errors.addEventListener('click', event => {
+      const target = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>('a[data-error-field]') : null;
+      if (!target) return;
+      const control = controls.find(item => item.name === target.dataset.errorField);
+      if (!control) return;
+      event.preventDefault();
+      const details = control.closest<HTMLDetailsElement>('details');
+      if (details) details.open = true;
+      control.focus();
+    });
+
+    const selected = new URLSearchParams(location.search).get('role');
+    if (selected && Object.hasOwn(roleNames, selected)) {
+      form.querySelector<HTMLInputElement>(`input[name="role"][value="${selected}"]`)!.checked = true;
+    }
+    syncRole();
+    if (progressConsent) progressConsent.checked = false;
+    form.querySelectorAll<HTMLInputElement>('input[name="role"]').forEach(input => input.addEventListener('change', () => {
+      if (phase === 'sending' || phase === 'received') return;
+      syncRole();
+      clearErrors();
+      invalidateReview();
+      scheduleDraft();
+    }));
+    const handleCorrection = (event: Event) => {
+      if (phase === 'sending' || phase === 'received' || event.target === progressConsent) return;
+      invalidateReview();
+      const control = event.target as InquiryControl;
+      if (controls.includes(control) && fieldErrors.has(control.name)) {
+        const message = validationMessage(control);
+        if (fieldErrors.get(control.name) !== message) {
+          setFieldError(control, message);
+          if (message) fieldErrors.set(control.name, message);
+          else fieldErrors.delete(control.name);
+          renderErrors();
+        }
+      }
+      scheduleDraft();
+    };
+    form.addEventListener('input', handleCorrection);
+    form.addEventListener('change', handleCorrection);
+    progressConsent?.addEventListener('change', () => {
+      if (currentIdentity) currentIdentity.prepared = null;
+      if (progressConsent.checked) scheduleDraft();
+      else pauseProgress();
+    });
+    retryProgress?.addEventListener('click', () => scheduleDraft(0));
+    window.addEventListener('pageshow', event => requestAnimationFrame(() => {
+      syncRole();
+      if (!event.persisted && !currentIdentity && progressConsent) progressConsent.checked = false;
+      if (phase !== 'sending' && phase !== 'received') {
+        clearErrors();
+        invalidateReview();
+      }
+    }));
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      if (phase === 'sending' || phase === 'received' || !validate()) return;
+      snapshot = collectSnapshot();
+      const list = document.querySelector('#review-values')!;
+      list.replaceChildren();
+      for (const [key, value] of Object.entries(snapshot)) {
+        const term = document.createElement('dt');
+        const definition = document.createElement('dd');
+        term.textContent = names[key];
+        definition.textContent = key === 'role' ? roleNames[value] : value;
+        list.append(term, definition);
+      }
+      emailText = 'OurPort site inquiry\n\n' + Object.entries(snapshot).map(([key, value]) => `${names[key]}: ${key === 'role' ? roleNames[value] : value}`).join('\n');
+      email.href = 'mailto:Mike@Monetize-that.com?cc=Joe%40monetize-that.com&subject=' + encodeURIComponent('OurPort site inquiry — ' + (snapshot.projectName || snapshot.location)) + '&body=' + encodeURIComponent(emailText);
+      email.hidden = serverMode;
+      send.hidden = !serverMode;
+      send.textContent = 'Send inquiry ↗';
+      edit.hidden = false;
+      startAnother.hidden = true;
+      receiptReference.hidden = true;
+      title.textContent = 'Ready for a conversation.';
+      help.textContent = serverMode ? 'Check your details before sending. We’ll confirm receipt and queue a summary for Mike and Joe.' : 'Your email app will open a draft addressed to Mike and copied to Joe. Review it and send when you’re ready. If the draft does not open, copy these details into an email to Mike@Monetize-that.com and Joe@monetize-that.com.';
+      status.textContent = '';
+      phase = 'review';
+      review.hidden = false;
+      review.focus();
+    });
+
+    edit.addEventListener('click', () => {
+      if (phase !== 'review') return;
+      invalidateReview();
+      form.querySelector<HTMLInputElement>('[name="contactName"]')!.focus();
+    });
+    startAnother.addEventListener('click', () => {
+      if (phase !== 'received') return;
+      const role = (form.elements.namedItem('role') as RadioNodeList).value;
+      form.reset();
+      form.querySelector<HTMLInputElement>(`input[name="role"][value="${role}"]`)!.checked = true;
+      phase = 'editing';
+      snapshot = null;
+      emailText = '';
+      currentIdentity = null;
+      identities = [];
+      pendingUpdate = null;
+      receiptReference.textContent = '';
+      receiptReference.hidden = true;
+      if (identityNote) identityNote.hidden = true;
+      progressMessage('');
+      review.hidden = true;
+      status.textContent = '';
+      clearErrors();
+      syncRole();
+      setBusy(false);
+      form.querySelector<HTMLInputElement>('[name="contactName"]')!.focus();
+    });
+    copy.addEventListener('click', async () => {
+      if (phase === 'sending') return;
+      try {
+        await navigator.clipboard.writeText(emailText);
+        status.textContent = 'Details copied.';
+      } catch {
+        status.textContent = 'Copy is unavailable in this browser. Select the details above and copy them manually.';
+      }
+    });
+
+    send.addEventListener('click', () => {
+      if (!serverMode || phase !== 'review' || !snapshot) return;
+      stopDraftTimer();
+      phase = 'sending';
+      setBusy(true);
+      email.hidden = true;
+      send.textContent = 'Sending…';
+      status.textContent = processing ? 'Finishing your progress update, then sending your inquiry…' : 'Sending your inquiry…';
+      pendingUpdate = {
+        stage: 'submitted',
+        data: {...snapshot},
+        progressConsent: progressConsent?.checked === true,
+        website: (form.elements.namedItem('website') as HTMLInputElement).value,
+      };
+      runQueue();
+    });
+
+    fields.disabled = false;
+    form.hidden = false;
+    document.querySelector<HTMLElement>('#inquiry-fallback')!.hidden = true;
   </script>
+  <style>
+    .inquiry-fields{margin:0!important}
+    .form-required-note{font-size:.8125rem;margin:0 0 18px;line-height:1.5}
+    .form-errors p{margin:0 0 8px;color:inherit;font-size:inherit}
+    .form-errors ul{margin:0;padding-left:1.2rem}
+    .form-errors li+li{margin-top:7px}
+    .form-errors a{text-decoration:underline;text-underline-offset:3px}
+    .receipt-reference{overflow-wrap:anywhere;margin-top:12px!important}
+    .noscript-note p{margin:0}
+    .progress-sharing{margin:0 0 24px}
+    .progress-choice{display:flex!important;align-items:flex-start;gap:12px;padding:16px;background:var(--pale);border:1px solid var(--line);border-radius:5px;font-weight:400!important;margin-bottom:10px!important;cursor:pointer}
+    .progress-choice input{display:inline-block!important;flex:none;width:18px!important;height:18px!important;min-height:18px!important;padding:0!important;margin:2px 0 0!important;accent-color:var(--blue)}
+    .progress-choice>span{font-size:.875rem;line-height:1.5}
+    .progress-sharing .fineprint{margin:8px 0 0}
+    .draft-status:empty{display:none}
+    .progress-retry{min-height:44px;padding:8px 0;background:none;border:0;color:var(--blue);font-size:.8125rem;text-decoration:underline;text-underline-offset:3px;text-align:left}
+  </style>
 </SiteLayout>
