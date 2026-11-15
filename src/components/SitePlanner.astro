@@ -64,6 +64,7 @@ const paths = [
       panels.forEach(panel => { panel.hidden = panel.dataset.plannerPanel !== selected?.value; });
     };
     inputs.forEach(input => input.addEventListener('change', update));
+    window.addEventListener('pageshow', update);
     update();
     if (choices) choices.hidden = false;
   });
