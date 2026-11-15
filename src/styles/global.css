@@ -306,20 +306,19 @@ section[id]{scroll-margin-top:12px}
 
 /* Supplied logo artwork, with only its surrounding whitespace clipped. */
 .brand{width:236px}
-.brand-art.brand-logo{width:236px;height:76px;position:relative;overflow:hidden;background:#fafbf8;border-radius:4px}
-.brand-art.brand-logo img{width:344px;max-width:none;height:auto;top:-23px;left:-54px}
+.site-header{background:#012347;border-bottom-color:#163a58}
+.brand-art.brand-logo{width:236px;height:auto;aspect-ratio:236/76;position:relative;overflow:hidden;background:transparent;border-radius:0}
+.brand-art.brand-logo img{width:110.17%;max-width:none;height:auto;top:-64.47%;left:-5.085%}
 .header-inner{min-height:92px}
 @media(max-width:1080px){
   .brand{width:200px}
-  .brand-art.brand-logo{width:200px;height:65px}
-  .brand-art.brand-logo img{width:292px;top:-20px;left:-46px}
+  .brand-art.brand-logo{width:200px}
 }
 @media(max-width:800px){
   .brand{width:clamp(164px,48vw,188px)}
-  .brand-art.brand-logo{width:100%;height:auto;aspect-ratio:188/60}
-  .brand-art.brand-logo img{width:145.745%;top:-31.667%;left:-22.872%}
+  .brand-art.brand-logo{width:100%}
   .header-inner{min-height:76px;gap:16px}
-  .site-header nav{max-height:calc(100dvh - 76px)}
+  .site-header nav{max-height:calc(100dvh - 76px);background:#012347}
 }
 
 /* Keep the homepage introduction compact, especially on phones. */
