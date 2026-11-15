@@ -55,3 +55,13 @@ Source: `../../OurPort_Codex_Build_Packet/source/WhatsApp_Ourport_chat.txt` and 
 - **Comparison control:** two clearly named buttons instead of a precision slider; keyboard accessible and usable on touch screens.
 
 Tide's public page was reviewed visually in the browser; Laundry Lockers' public navigation and content hierarchy were inspected through its accessibility tree. No customer account, private dashboard or mobile app was accessed. Remaining research is supplier/API diligence, not needed to review this first marketing build.
+
+## Light, space and the box motif — 15 November 2026
+
+The user requested a broader box theme, artistic glow and tinting across the website. Primary references were browsed for composition and interaction ideas; no competitor artwork or source code was copied.
+
+- [Stripe's Connect front-end design article](https://stripe.com/blog/connect-front-end-experience) is a historical reference for connected cubes, a consistent light source and restrained motion. OurPort's own gold/white/blue cube supplies the geometry and palette.
+- [Linear](https://linear.app/) informed bounded visual stages, fine structural lines and space around readable content.
+- [Nothing](https://nothing.tech/) informed image-led chapters and short, clear actions.
+
+The resulting treatment uses cream-to-blue ambient light, fine illuminated image frames, cube markers and an original connected-box scene. Service cards, the three-step workflow, selected planner choices, form surfaces and the closing navy section share the same palette. Photo content and engineering diagrams retain their existing concept labels. Hover feedback has keyboard-focus equivalents; the theme introduces no tracking or interaction scripts, keeps content visible without JavaScript, and respects reduced-motion preferences. Decorative scenes are static by default. The public form remains in its separately configured email mode until notification activation is verified.

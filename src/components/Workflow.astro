@@ -3,4 +3,28 @@ import { workflow } from '../content/site';
 interface Props { housing?: boolean; }
 const { housing = false } = Astro.props;
 ---
+<style>
+  .workflow-section{position:relative;isolation:isolate;background:radial-gradient(ellipse at 6% 20%,rgba(255,200,106,.1),transparent 43%),radial-gradient(ellipse at 90% 100%,rgba(89,173,218,.12),transparent 58%),#f0f6f9;border-block:1px solid rgba(137,177,200,.14)}
+  .workflow{gap:40px}
+  .workflow li{background:linear-gradient(145deg,rgba(255,255,255,.97),rgba(242,249,253,.94));border:1px solid rgba(121,163,189,.35);border-top:2px solid #8ab4cb;border-radius:12px;padding:24px 24px 26px;box-shadow:0 13px 32px rgba(18,63,93,.04)}
+  .workflow li:nth-child(2){background:linear-gradient(145deg,#fff,rgba(255,247,229,.78));border-top-color:#d4af6c}
+  .workflow li+li::before{content:'';position:absolute;left:-41px;top:53px;width:40px;height:1px;background:linear-gradient(90deg,#8dbbd2,#cfad6e,#8dbbd2);box-shadow:0 0 9px rgba(88,164,207,.24)}
+  .workflow li+li::after{content:'';position:absolute;left:-24px;top:50px;width:6px;height:6px;border-radius:50%;background:#c69c50;box-shadow:0 0 0 4px rgba(207,178,122,.14)}
+  .step-mark{align-items:center;margin-bottom:24px}
+  .step-mark .step-number{font-size:.75rem;letter-spacing:.12em;font-weight:700;margin:0;color:#8f6a28}
+  .step-icon{width:54px;height:54px;padding:10px;border-radius:13px;border-color:#c4dbe8;background:linear-gradient(140deg,#fff,#e7f3fa);box-shadow:inset 0 1px 0 #fff,0 5px 12px rgba(45,100,136,.04);color:#2c6b94}
+  .workflow li:nth-child(2) .step-icon{background:linear-gradient(140deg,#fff,#fff0d2);border-color:#e2cea7;color:#886b36}
+  .workflow h3{font-size:1.65rem}
+  .workflow p{font-size:.9375rem}
+  @media(max-width:800px){.workflow{gap:24px}.workflow li{padding:21px 19px}.workflow h3{font-size:1.4rem}.workflow li+li::before{left:-25px;width:24px}.workflow li+li::after{left:-16px}.workflow p{font-size:.875rem}}
+  @media(max-width:560px){
+    .workflow{gap:28px}
+    .workflow li{display:block;padding:22px}
+    .workflow li+li::before{left:33px;top:-30px;width:1px;height:28px;background:linear-gradient(180deg,#8dbbd2,#cfad6e,#8dbbd2)}
+    .workflow li+li::after{left:30px;top:-18px}
+    .step-mark{margin-bottom:16px}
+    .workflow h3{font-size:1.5rem}
+    .workflow p{font-size:.9375rem}
+  }
+</style>
 <section class="section workflow-section"><div class="container"><div class="section-heading"><div><p class="eyebrow">A simple service loop</p><h2>Drop off. Wash & fold. Pick up.</h2></div><p>{housing ? 'A familiar place for residents. A planned collection route for the laundry provider.' : 'Customers get a convenient handoff. Your team stays in charge of the laundry.'}</p></div><ol class="workflow">{workflow.map((step,i) => <li><div class="step-mark"><span class="step-number">0{i+1}</span>{i === 0 ? <svg class="step-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M12 15h16v18H12zM16 15v-3a4 4 0 0 1 8 0v3M20 6v6M16.5 9.5 20 13l3.5-3.5" /></svg> : i === 1 ? <svg class="step-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M9 13h22l-2 20H11L9 13ZM14 8c1.5 2 3 2 4.5 0S22 6 24 8s3.5 2 5 0M14 21c2-2 4-2 6 0s4 2 6 0" /></svg> : <svg class="step-icon" viewBox="0 0 40 40" aria-hidden="true"><path d="M12 11h16v22H12zM16 11V8h8v3M20 28V17M16.5 20.5 20 17l3.5 3.5" /></svg>}</div><h3>{step.title}</h3><p>{step.body}</p></li>)}</ol><p class="fineprint">Proposed workflow. Order acceptance, notifications and access are configured with the selected operator and system.</p></div></section>

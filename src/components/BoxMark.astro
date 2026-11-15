@@ -1,0 +1,26 @@
+---
+interface Props {
+  class?: string;
+  size?: number | string;
+  variant?: 'solid' | 'wire';
+  style?: string;
+}
+
+const { class: className, size = 96, variant = 'solid', style } = Astro.props;
+---
+<svg class:list={['box-mark', `box-mark--${variant}`, className]} width={size} viewBox="0 0 100 112" fill="none" aria-hidden="true" focusable="false" data-box-mark style={style}>
+  <path class="box-top" d="M50 4 94 29 50 54 6 29Z" />
+  <path class="box-left" d="M5 35 47 59v49L5 84Z" />
+  <path class="box-right" d="m53 59 42-24v49l-42 24Z" />
+  <path class="box-shine" d="M10 29 50 6l40 23M8 38v44l36 21M56 61l36-21" />
+</svg>
+<style>
+  .box-mark{display:block;height:auto;overflow:visible;flex:none}
+  .box-top{fill:var(--box-top,#ffbd4b)}
+  .box-left{fill:var(--box-left,#fafdff)}
+  .box-right{fill:var(--box-right,#60aad3)}
+  .box-top,.box-left,.box-right{stroke:var(--box-seam,#012347);stroke-width:1.2;stroke-linejoin:round}
+  .box-shine{stroke:#fff;stroke-opacity:.28;stroke-width:.8;stroke-linecap:round;stroke-linejoin:round}
+  .box-mark--wire .box-top,.box-mark--wire .box-left,.box-mark--wire .box-right{fill:none;stroke-width:1.1;stroke:currentColor}
+  .box-mark--wire .box-shine{display:none}
+</style>

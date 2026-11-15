@@ -1,5 +1,26 @@
 ---
+import BoxMark from './BoxMark.astro';
 interface Props { title?: string; body?: string; role?: string; }
 const { title = 'A good fit starts with your site.', body = 'A laundromat wall, an apartment lobby, or a student residence. Tell us what you have in mind.', role = '' } = Astro.props;
 ---
-<section class="cta-section"><div class="container cta-inner"><div><p class="eyebrow">Let’s plan it together</p><h2>{title}</h2><p>{body}</p></div><a class="button" href={`/plan-a-site/${role ? '?role='+role : ''}`}>Discuss fit and pricing <span aria-hidden="true">↗</span></a></div></section>
+<section class="cta-section"><div class="cta-box" aria-hidden="true"><BoxMark size={280} /></div><div class="container cta-inner"><div class="cta-copy"><p class="eyebrow">Let’s plan it together</p><h2>{title}</h2><p>{body}</p></div><a class="button" href={`/plan-a-site/${role ? '?role='+role : ''}`}>Discuss fit and pricing <span aria-hidden="true">↗</span></a></div></section>
+<style>
+  .cta-section{position:relative;isolation:isolate;overflow:hidden;margin-top:34px;border-top:1px solid rgba(124,189,224,.45);background:radial-gradient(ellipse at 93% 65%,rgba(71,159,208,.26),transparent 53%),radial-gradient(ellipse at 10% 0,rgba(214,164,73,.14),transparent 40%),#012347;color:#f9fcff}
+  .cta-section::after{content:'';position:absolute;z-index:-1;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 70%,rgba(143,196,224,.07) 70%,transparent 70.15%)}
+  .cta-inner{position:relative;z-index:1;padding-block:72px;gap:70px}
+  .cta-copy{max-width:710px}
+  .cta-inner .eyebrow{color:#f0c67c;font-size:.6875rem;letter-spacing:.14em}
+  .cta-inner h2{color:#f6fbff;font-size:clamp(2rem,3.15vw,2.75rem);max-width:680px}
+  .cta-inner p:last-child{color:#c8dbe8;max-width:610px;font-size:1rem;line-height:1.65}
+  .cta-inner .button{position:relative;color:#05294a;background:#f5fbff;border-color:#f5fbff;box-shadow:0 0 0 5px rgba(143,191,219,.055),0 8px 28px rgba(0,10,27,.15);transition:background .2s ease,box-shadow .2s ease}
+  .cta-inner .button>span{display:inline-block;transition:transform .2s ease}
+  .cta-inner .button:hover{background:#fff7e7;border-color:#efd4a0;box-shadow:0 0 0 5px rgba(255,199,102,.1),0 8px 28px rgba(0,10,27,.15)}
+  .cta-inner .button:hover>span{transform:translate(2px,-2px)}
+  .cta-inner .button:focus-visible{outline-color:#ffcf80}
+  .cta-box{position:absolute;z-index:-1;pointer-events:none;right:5%;top:50%;width:280px;opacity:.14;transform:translateY(-50%) rotate(-9deg)}
+  .cta-box :global(svg){width:100%;height:auto;display:block}
+  @media(max-width:1080px){.cta-inner{gap:40px}.cta-inner h2{max-width:570px}.cta-box{right:1%}}
+  @media(max-width:800px){.cta-inner{padding-block:54px;gap:28px}.cta-copy{max-width:580px}.cta-box{width:250px;right:-50px;top:55%}.cta-inner p:last-child{max-width:520px}.cta-inner .button{align-self:flex-start}}
+  @media(max-width:560px){.cta-section{margin-top:12px}.cta-inner{padding-block:42px;gap:27px}.cta-inner h2{max-width:360px;font-size:2rem}.cta-inner p:last-child{font-size:.9375rem}.cta-inner .button{width:100%;justify-content:space-between}.cta-box{width:220px;right:-75px;top:43%;opacity:.09}}
+  @media(prefers-reduced-motion:reduce){.cta-inner .button,.cta-inner .button>span{transition:none}.cta-inner .button:hover>span{transform:none}}
+</style>

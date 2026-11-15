@@ -6,6 +6,7 @@ All images are supplied OurPort working concepts. Original files remain unchange
 | --- | --- | --- |
 | images/ourport-logo.webp | OurPort_Codex_Build_Packet/source/OurPort_logo.png | Resized and compressed for web; supplied artwork retained, surrounding whitespace clipped by CSS. |
 | images/ourport-logo-reverse.jpg | User-supplied OurPort-Logo-Reverse.jpg, 15 November 2026 | Resized to 1200 × 800 for web delivery. Header clips surrounding navy padding with CSS; artwork and colors retained. Header background sampled from the supplied navy. |
+| images/ourport-box.svg; BoxMark.astro; BoxConstellation.astro | Decorative vector interpretation of the cube in the supplied reverse logo, 15 November 2026 | Gold top, white left face and blue right face repeated in section markers and connected-node artwork. These are decorative graphics; the full header/footer logo remains the supplied JPG. No image-generation service used. |
 | images/laundromat-wall.webp | Second Folder/Heritage Suds/Ourport in wall.png | Room concept; not a documented installation. |
 | images/laundromat-before.webp | Second Folder/Heritage Suds/Heritage Cleaned 2.png | Also an illustrative room view; never labeled an existing-site photograph. |
 | images/housing-lobby.webp | Second Folder/In Situ/Brownstone.png | Residential concept; not a named property's endorsement. |

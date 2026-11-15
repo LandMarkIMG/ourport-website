@@ -1,5 +1,6 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
+import BoxConstellation from '../components/BoxConstellation.astro';
 const mode = import.meta.env.PUBLIC_INQUIRY_MODE === 'server' ? 'server' : 'email';
 const endpoint = import.meta.env.PUBLIC_INQUIRY_ENDPOINT || 'https://xpdnhfgfbgcunlmuyjrx.supabase.co/functions/v1/ourport-intake';
 ---
@@ -11,6 +12,7 @@ const endpoint = import.meta.env.PUBLIC_INQUIRY_ENDPOINT || 'https://xpdnhfgfbgc
       <p class="lead">Tell us where you’re planning and what you have today. We’ll work through the service, space and fit together.</p>
       <div class="inquiry-contact"><p>Prefer to get in touch directly?</p><a href="mailto:Mike@Monetize-that.com">Mike@Monetize-that.com</a></div>
       <p class="inquiry-note">You don’t need final dimensions or a chosen locker. A working idea is enough to begin.</p>
+      <div class="inquiry-constellation"><BoxConstellation /></div>
     </section>
     <div id="inquiry-fallback" class="noscript-note">
       <p>Email <a href="mailto:Mike@Monetize-that.com?cc=Joe%40monetize-that.com">Mike and Joe at Monetize That</a> with your name, city and state, and the kind of site you’re planning.</p>

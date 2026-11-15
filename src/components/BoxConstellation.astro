@@ -1,0 +1,53 @@
+---
+import BoxMark from './BoxMark.astro';
+
+interface Props {
+  class?: string;
+  motion?: boolean;
+}
+
+const { class: className, motion = false } = Astro.props;
+---
+<div class:list={['box-constellation', { 'has-motion': motion }, className]} aria-hidden="true">
+  <div class="constellation-light"></div>
+  <svg class="constellation-routes" viewBox="0 0 640 440" fill="none" focusable="false" aria-hidden="true">
+    <path class="route-orbit" d="m92 226 230-133 230 133-230 133Z" />
+    <path class="route-orbit route-orbit-inner" d="m171 226 151-87 151 87-151 87Z" />
+    <path class="route-connection" d="m109 102 106 62 107 62 106-62 104-60M162 330l80-46 80-58 100 58 82 47" />
+    <path class="route-connection route-axis" d="M322 75v292M68 226h510" />
+    <g class="route-nodes">
+      <circle cx="92" cy="226" r="3" />
+      <circle cx="552" cy="226" r="3" />
+      <circle cx="322" cy="93" r="3" />
+      <circle cx="322" cy="359" r="3" />
+    </g>
+    <g class="route-spark">
+      <path d="M234 114v12m-6-6h12M444 330v12m-6-6h12" />
+    </g>
+  </svg>
+  <span class="constellation-box box-main"><BoxMark size="100%" /></span>
+  <span class="constellation-box box-one"><BoxMark size="100%" /></span>
+  <span class="constellation-box box-two"><BoxMark size="100%" variant="wire" /></span>
+  <span class="constellation-box box-three"><BoxMark size="100%" variant="wire" /></span>
+  <span class="constellation-box box-four"><BoxMark size="100%" /></span>
+</div>
+<style>
+  .box-constellation{position:relative;width:100%;max-width:640px;aspect-ratio:16/11;isolation:isolate;pointer-events:none;color:var(--constellation-line,#6da8cd)}
+  .constellation-light{position:absolute;inset:8% 9%;border-radius:50%;background:radial-gradient(ellipse at 49% 48%,rgba(255,190,75,.2),rgba(100,174,220,.16) 38%,transparent 72%);z-index:-1}
+  .constellation-routes{position:absolute;inset:0;width:100%;height:100%;overflow:visible;stroke:currentColor;stroke-width:1;vector-effect:non-scaling-stroke}
+  .route-orbit{stroke-opacity:.37}
+  .route-orbit-inner{stroke-opacity:.2}
+  .route-connection{stroke-opacity:.5}
+  .route-axis{stroke-opacity:.15;stroke-dasharray:2 9}
+  .route-nodes{fill:currentColor;stroke:none;opacity:.65}
+  .route-spark{stroke:var(--box-top,#ffbd4b);stroke-opacity:.7}
+  .constellation-box{position:absolute;display:block}
+  .box-main{left:43%;top:34%;width:16%;transform:translateY(0)}
+  .box-one{left:13%;top:15%;width:8%;opacity:.85}
+  .box-two{left:80%;top:18%;width:6%;opacity:.7}
+  .box-three{left:22%;top:70%;width:6%;opacity:.65}
+  .box-four{left:74%;top:68%;width:9%;opacity:.9}
+  .has-motion .box-main{animation:box-hover 8s ease-in-out infinite}
+  @keyframes box-hover{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+  @media(prefers-reduced-motion:reduce){.has-motion .box-main{animation:none}}
+</style>
