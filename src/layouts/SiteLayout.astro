@@ -46,9 +46,47 @@ const path = Astro.url.pathname;
     <script>
       const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
       const nav = document.querySelector<HTMLElement>('#main-navigation');
-      const close = () => { toggle?.setAttribute('aria-expanded', 'false'); nav?.classList.remove('is-open'); };
-      toggle?.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') !== 'true'; toggle.setAttribute('aria-expanded', String(open)); nav?.classList.toggle('is-open', open); });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') { close(); toggle.focus(); } });
+      const header = document.querySelector<HTMLElement>('.site-header');
+      const options = document.querySelector<HTMLDetailsElement>('.nav-options');
+      const optionsToggle = options?.querySelector<HTMLElement>('summary');
+      const mobile = window.matchMedia('(max-width: 800px)');
+      const close = () => {
+        toggle?.setAttribute('aria-expanded', 'false');
+        nav?.classList.remove('is-open');
+        if (options) options.open = false;
+      };
+      toggle?.addEventListener('click', () => {
+        if (toggle.getAttribute('aria-expanded') === 'true') close();
+        else {
+          toggle.setAttribute('aria-expanded', 'true');
+          nav?.classList.add('is-open');
+        }
+      });
+      document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape') return;
+        if (options?.open) {
+          options.open = false;
+          optionsToggle?.focus();
+        } else if (toggle?.getAttribute('aria-expanded') === 'true') {
+          close();
+          toggle.focus();
+        }
+      });
+      document.addEventListener('click', event => {
+        if (!(event.target instanceof Node)) return;
+        if (!header?.contains(event.target)) close();
+        else if (options && !options.contains(event.target)) options.open = false;
+      });
+      document.addEventListener('focusin', event => {
+        if (!(event.target instanceof Node)) return;
+        if (options && !options.contains(event.target)) options.open = false;
+        if (mobile.matches && !header?.contains(event.target)) close();
+      });
+      mobile.addEventListener('change', () => {
+        const focusWasInNav = nav?.contains(document.activeElement);
+        close();
+        if (mobile.matches && focusWasInNav) toggle?.focus();
+      });
       nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', close));
     </script>
   </body>

@@ -1,0 +1,111 @@
+---
+const paths = [
+  {
+    role: 'laundromat',
+    label: 'Laundromat',
+    title: 'Build around your wash-and-fold service.',
+    body: 'A quick look at your operation and likely wall gives us a useful place to begin.',
+    checklist: ['Current order system and service hours', 'Full bag and finished-order size', 'Likely wall and customer access'],
+    action: 'Plan a laundromat site',
+    explore: 'Explore the laundry wall',
+    href: '/laundromats/',
+  },
+  {
+    role: 'housing',
+    label: 'Apartments & student housing',
+    title: 'Start with the people and the provider.',
+    body: 'Outline the community, the laundry service and the access rules the handoff needs to respect.',
+    checklist: ['Homes or beds served', 'Laundry provider, if selected', 'Likely location and resident access'],
+    action: 'Plan a housing site',
+    explore: 'Explore the resident amenity',
+    href: '/housing/',
+  },
+  {
+    role: 'builder',
+    label: 'Builder or developer',
+    title: 'Bring the idea into the site plan.',
+    body: 'A project stage and a possible location are enough for the first conversation. Measurements can follow.',
+    checklist: ['Project stage and location', 'Possible wall and circulation route', 'Known power, network or access constraints'],
+    action: 'Discuss a building project',
+    explore: 'Download the working brief · PDF',
+    href: '/downloads/ourport-owner-builder-brief.pdf',
+  },
+];
+---
+<section class="site-planner container" id="site-planner" aria-labelledby="site-planner-title">
+  <div class="planner-intro">
+    <p class="eyebrow">A useful first step</p>
+    <h2 id="site-planner-title">Start with your kind of site.</h2>
+    <p>Choose a starting point. See what is useful to bring, then tell us a little about your plans.</p>
+    <span class="planner-note">A working idea is enough.</span>
+  </div>
+  <div class="planner-tool" data-site-planner>
+    <fieldset class="planner-choices" hidden>
+      <legend>Where are you planning?</legend>
+      <div class="planner-options">
+        {paths.map((path, i) => <label class="planner-choice"><input type="radio" name="site-planner-role" value={path.role} checked={i === 0} aria-controls={`planner-${path.role}`} /><span>{path.label}</span></label>)}
+      </div>
+    </fieldset>
+    {paths.map((path, i) => <div class="planner-panel" id={`planner-${path.role}`} data-planner-panel={path.role} hidden={i !== 0}>
+      <div class="planner-overview"><p class="planner-kind">{path.label}</p><h3>{path.title}</h3><p>{path.body}</p></div>
+      <div class="planner-preparation"><p class="planner-list-label">Useful to bring, if you know it</p><ul>{path.checklist.map(item => <li><span aria-hidden="true">✓</span>{item}</li>)}</ul></div>
+      <div class="planner-actions"><a class="button" href={`/plan-a-site/?role=${path.role}`}>{path.action}<span aria-hidden="true">↗</span></a><a class="planner-explore" href={path.href} download={path.role === 'builder' ? true : undefined}>{path.explore}<span aria-hidden="true">{path.role === 'builder' ? '↓' : '→'}</span></a></div>
+    </div>)}
+    <noscript><div class="planner-fallback"><p>Planning another kind of site?</p><a href="/plan-a-site/?role=housing">Plan an apartment or student housing site <span aria-hidden="true">↗</span></a><a href="/plan-a-site/?role=builder">Discuss a building project <span aria-hidden="true">↗</span></a><a href="/downloads/ourport-owner-builder-brief.pdf" download>Download the working brief · PDF <span aria-hidden="true">↓</span></a></div></noscript>
+  </div>
+</section>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-site-planner]').forEach(planner => {
+    const choices = planner.querySelector<HTMLFieldSetElement>('.planner-choices');
+    const inputs = planner.querySelectorAll<HTMLInputElement>('input[name="site-planner-role"]');
+    const panels = planner.querySelectorAll<HTMLElement>('[data-planner-panel]');
+    const update = () => {
+      const selected = planner.querySelector<HTMLInputElement>('input[name="site-planner-role"]:checked');
+      panels.forEach(panel => { panel.hidden = panel.dataset.plannerPanel !== selected?.value; });
+    };
+    inputs.forEach(input => input.addEventListener('change', update));
+    update();
+    if (choices) choices.hidden = false;
+  });
+</script>
+<style>
+  .site-planner{display:grid;grid-template-columns:.65fr 1.35fr;gap:56px;padding-block:54px;border-bottom:1px solid var(--line)}
+  .planner-intro{min-width:0;padding-top:3px}
+  .planner-intro .eyebrow{margin-bottom:15px}
+  .planner-intro h2{max-width:340px;font-size:clamp(1.85rem,2.7vw,2.35rem);line-height:1.14}
+  .planner-intro>p:not(.eyebrow){font-size:.9375rem;max-width:330px;margin:18px 0 19px}
+  .planner-note{display:inline-flex;align-items:center;gap:9px;font-size:.8125rem;color:var(--muted)}
+  .planner-note::before{content:'';width:6px;height:6px;flex:none;background:var(--gold);transform:rotate(45deg)}
+  .planner-tool{min-width:0;background:#eef4f7;border:1px solid #c8d8e2;border-radius:8px;padding:24px}
+  .planner-choices{min-width:0;margin:0 0 23px;padding:0;border:0}
+  .planner-choices legend{font-size:.8125rem;font-weight:700;line-height:1.4;margin-bottom:11px;padding:0}
+  .planner-options{display:grid;grid-template-columns:.85fr 1.2fr 1fr;gap:8px}
+  .planner-choice{display:flex;align-items:center;gap:9px;min-width:0;min-height:66px;padding:11px 12px;border:1px solid #aebfca;border-radius:5px;background:#fff;font-size:.8125rem;line-height:1.35;cursor:pointer;color:var(--ink)}
+  .planner-choice input{width:17px;height:17px;flex:none;margin:0;accent-color:var(--ink);cursor:pointer}
+  .planner-choice:has(input:checked){background:var(--ink);border-color:var(--ink);color:white;box-shadow:inset 0 -3px #dca637}
+  .planner-choice:has(input:checked) input{accent-color:white}
+  .planner-choice:hover{border-color:var(--blue)}
+  .planner-choice:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:3px}
+  .planner-choice input:focus-visible{outline:none}
+  .planner-panel{display:grid;grid-template-columns:1fr 1fr;gap:20px 24px;min-width:0}
+  .planner-overview,.planner-preparation{min-width:0}
+  .planner-kind{color:var(--blue);font-size:.6875rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;line-height:1.45;margin:0 0 9px}
+  .planner-overview h3{font-size:1.23rem;line-height:1.24;letter-spacing:-.025em}
+  .planner-overview>p:last-child{font-size:.8125rem;line-height:1.55;margin:10px 0 0}
+  .planner-preparation{border-left:1px solid #c5d4dd;padding-left:21px}
+  .planner-list-label{font-size:.75rem;font-weight:700;line-height:1.4;color:var(--ink);margin:0 0 10px}
+  .planner-preparation ul{padding:0;margin:0;list-style:none;display:grid;gap:10px}
+  .planner-preparation li{display:flex;gap:8px;font-size:.8125rem;line-height:1.45;color:#415866}
+  .planner-preparation li>span{color:var(--blue);font-weight:700;flex:none}
+  .planner-actions{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:10px 19px;border-top:1px solid #c5d4dd;padding-top:18px}
+  .planner-actions .button{min-height:46px;padding:12px 15px;font-size:.8125rem;gap:16px}
+  .planner-explore{display:inline-flex;align-items:center;gap:10px;min-height:44px;font-size:.75rem;font-weight:600;line-height:1.4;color:var(--blue);text-decoration:underline;text-decoration-color:#a6bccb;text-underline-offset:4px}
+  .planner-explore:hover{text-decoration-color:currentColor}
+  .planner-fallback{border-top:1px solid #c5d4dd;margin-top:20px;padding-top:15px}
+  .planner-fallback p{font-size:.8125rem;margin-bottom:5px}
+  .planner-fallback a{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;padding-block:9px;color:var(--blue);font-size:.8125rem;text-decoration:underline;text-underline-offset:4px}
+  @media(max-width:1000px){.site-planner{gap:30px;grid-template-columns:.55fr 1.45fr}.planner-tool{padding:20px}.planner-options{grid-template-columns:.85fr 1.2fr 1fr}.planner-choice{padding:10px 9px;gap:7px;font-size:.75rem}.planner-panel{gap:20px}.planner-preparation{padding-left:17px}}
+  @media(max-width:800px){.site-planner{grid-template-columns:1fr;gap:24px;padding-block:40px}.planner-intro h2{max-width:none}.planner-intro>p:not(.eyebrow){max-width:540px;margin:13px 0 12px}.planner-options{grid-template-columns:repeat(3,1fr)}.planner-choice{font-size:.8125rem;padding:11px 12px}.planner-tool{padding:22px}.planner-overview h3{font-size:1.3rem}}
+  @media(max-width:560px){.site-planner{padding-block:34px;gap:21px}.planner-tool{padding:18px 16px}.planner-options{grid-template-columns:1fr;gap:7px}.planner-choice{min-height:48px;padding:11px 12px}.planner-choices{margin-bottom:21px}.planner-panel{grid-template-columns:1fr;gap:18px}.planner-overview h3{font-size:1.25rem}.planner-preparation{border-left:0;border-top:1px solid #c5d4dd;padding:16px 0 0}.planner-preparation ul{gap:9px}.planner-actions{gap:6px;padding-top:16px}.planner-actions .button{width:100%;justify-content:space-between;font-size:.8125rem}.planner-explore{max-width:100%;font-size:.75rem}.planner-kind{font-size:.65rem}}
+  @media(prefers-reduced-motion:reduce){.planner-actions .button{transition:none}}
+</style>

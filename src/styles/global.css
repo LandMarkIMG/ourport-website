@@ -285,3 +285,28 @@ body,main{background:var(--powder)}
 @media(max-width:900px){.laundry-hero{grid-template-columns:1fr;gap:28px}.laundry-hero-copy .lead{max-width:620px}.laundry-hero .transformation{width:min(760px,100%)}.laundry-hero .transformation-bar{flex-direction:row;align-items:flex-end}.laundry-hero .segmented{width:auto}}
 @media(max-width:800px){.section{padding-block:40px}.header-inner{min-height:70px}.site-header nav{top:69px}.home-hero,.housing-hero,.option-hero,.laundry-hero{padding-block:30px}.information-band{padding-block:34px}.workflow-section,.community-model,.operator-map{padding-block:40px}.property-checklist{padding-block:37px}.cta-inner{padding-block:30px}.site-footer{padding-top:29px}}
 @media(max-width:560px){.section{padding-block:34px}.home-hero,.housing-hero,.option-hero,.laundry-hero{padding-block:26px}.laundry-hero-copy h1{font-size:2.7rem}.laundry-hero .transformation-bar{flex-direction:column;align-items:flex-start;gap:11px}.laundry-hero .segmented{width:100%}.information-band{padding-block:30px}.workflow-section,.community-model,.operator-map{padding-block:34px}.property-checklist{padding-block:32px}.cta-inner{padding-block:27px}}
+
+/* Purposeful interaction feedback, with the existing brand and page rhythm. */
+html{scroll-padding-top:84px}
+section[id]{scroll-margin-top:12px}
+.skip-link{position:fixed;z-index:100}
+.site-header{z-index:30}
+.nav-options>div{z-index:1}
+.nav-options>div a{min-height:44px}
+.button,.text-link>span[aria-hidden],.audience-links a>span,.faq-list summary>span{transition:background .18s ease,border-color .18s ease,box-shadow .18s ease,transform .18s ease}
+.button:focus-visible{outline-color:var(--gold)}
+.audience-card .card-image,.extension-grid>a{transition:box-shadow .2s ease,border-color .2s ease}
+.audience-card:focus-visible .card-image,.extension-grid>a:focus-visible{box-shadow:0 0 0 3px var(--gold)}
+.audience-card:focus-visible .card-image img{transform:scale(1.02)}
+.faq-list summary:hover{color:var(--blue)}
+.faq-list details:last-child{border-bottom:0}
+@media(hover:hover){
+  .button:hover{box-shadow:0 4px 12px #122c3e18}
+  .text-link:hover>span[aria-hidden],.audience-links a:hover>span{transform:translate(2px,-2px)}
+  .audience-card:hover .card-image,.extension-grid>a:hover{box-shadow:0 9px 26px #122c3e18}
+}
+@media(max-width:800px){
+  .site-header nav{top:100%;max-height:calc(100dvh - 70px);overflow-y:auto}
+  .menu-toggle{min-height:44px}
+}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
